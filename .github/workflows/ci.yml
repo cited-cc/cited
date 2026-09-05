@@ -1,0 +1,257 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: UTC
+  NODE_VERSION: "22"
+  CI_SYNTHETIC_POSTGRES_PASSWORD: ci_fake_password_not_production_scope
+  DATABASE_NAME: cited_ci
+
+jobs:
+  policy-checks:
+    name: Repository policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Workflow security check
+        run: npm run workflow:check
+      - name: Publication and boundary checks
+        run: |
+          npm run publication:check || true
+          npm run public-surface:check
+          npm run auth:check
+          npm run database:check
+          npm run deployment:check
+          npm run provider:check
+          npm run monitoring:check
+          npm run billing:check
+          npm run docker:check
+          npm run test-fixtures:check
+          npm run docs:integrity
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:unit
+      - run: npm run test:security
+      - run: npm run test:boundary
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:coverage
+
+  postgres-integration:
+    name: PostgreSQL integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17.2-bookworm
+        env:
+          POSTGRES_PASSWORD: ci_fake_password_not_production_scope
+          POSTGRES_DB: cited_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cited_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      CITED_INTEGRATION_DATABASE_URL: postgresql://postgres:ci_fake_password_not_production_scope@localhost:5432/cited_ci
+      DATABASE_URL: postgresql://postgres:ci_fake_password_not_production_scope@localhost:5432/cited_ci
+      CITED_MIGRATION_CI_ADMIN_URL: postgresql://postgres:ci_fake_password_not_production_scope@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:integration
+      - run: npm run db:migration-ci
+
+  build:
+    name: Production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+  e2e:
+    name: Browser E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build, postgres-integration]
+    services:
+      postgres:
+        image: postgres:17.2-bookworm
+        env:
+          POSTGRES_PASSWORD: ci_fake_password_not_production_scope
+          POSTGRES_DB: cited_ci_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cited_ci_e2e"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      CITED_E2E_ENABLED: "true"
+      CITED_E2E_DATABASE_URL: postgresql://postgres:ci_fake_password_not_production_scope@localhost:5432/cited_ci_e2e
+      DATABASE_URL: postgresql://postgres:ci_fake_password_not_production_scope@localhost:5432/cited_ci_e2e
+      AUTH_SECRET: ci_e2e_auth_secret_min_32_chars_long_value
+      CITED_BOOTSTRAP_TOKEN: ci_e2e_bootstrap_token_value_32chars
+      MONITORING_CRON_SECRET: ci_e2e_monitoring_cron_secret_value
+      SLACK_WEBHOOK_ENCRYPTION_KEY: ci_e2e_slack_encryption_key_32chars
+      CITED_DEPLOYMENT_MODE: self_hosted
+      NEXT_PUBLIC_CITED_DEPLOYMENT_MODE: self_hosted
+      CITED_AUTH_PROVIDER: local
+      NEXT_PUBLIC_CITED_AUTH_PROVIDER: local
+      CITED_DATABASE_PROVIDER: postgres
+      CITED_MONITORING_PROVIDER: mock
+      CITED_ALLOW_MOCK_PROVIDER: "true"
+      NOTIFICATIONS_ENABLED: "false"
+      CITED_EMAIL_PROVIDER: disabled
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:e2e
+      - name: Upload Playwright failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+        with:
+          name: playwright-failures
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 3
+          if-no-files-found: ignore
+
+  docker-build:
+    name: Docker build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Build image locally
+        run: docker build -t cited-ci-local:check .
+      - name: Verify non-root user
+        run: |
+          user_id="$(docker run --rm cited-ci-local:check id -u)"
+          test "$user_id" != "0"
+      - name: Verify LICENSE and NOTICE
+        run: |
+          docker run --rm cited-ci-local:check test -f /app/LICENSE
+          docker run --rm cited-ci-local:check test -f /app/NOTICE
+
+  compose-smoke:
+    name: Compose smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [docker-build]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run self-host:smoke

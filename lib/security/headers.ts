@@ -11,9 +11,7 @@ export type SecurityHeader = {
 };
 
 function isSelfHostedForHeaders(): boolean {
-  const mode =
-    process.env.CITED_DEPLOYMENT_MODE ??
-    process.env.NEXT_PUBLIC_CITED_DEPLOYMENT_MODE;
+  const mode = process.env.NEXT_PUBLIC_CITED_DEPLOYMENT_MODE;
   return mode !== "cloud";
 }
 

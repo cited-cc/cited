@@ -28,6 +28,7 @@
     "security-baseline-present",
     "security-documentation-present",
     "clean-install-verification",
+    "ci-readiness",
     "public-surface-verification",
     "human-approval"
   ],

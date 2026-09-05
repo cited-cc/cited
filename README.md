@@ -89,6 +89,7 @@ CITED_DEPLOYMENT_MODE=cloud|self_hosted
 npm run lint
 npm run typecheck
 npm run test
+npm run ci:check
 npm run security:scan
 npm run content:check
 npm run seo:check
