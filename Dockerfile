@@ -2,7 +2,7 @@
 
 # Pin to a maintained Node 22 Debian slim base. Operators may pin by digest:
 # FROM node:22-bookworm-slim@sha256:<digest>
-FROM node:22-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 
