@@ -92,7 +92,7 @@ No license choice is made in Phase 1.
 2. **A clean secret scan is necessary but not sufficient.** Automated secret scanning catches obvious credential patterns. It does not prove that history, research data, or operational documents are safe.
 3. **Git history must be sanitized, not merely the current working tree.** Files removed in a later commit may still exist in prior commits. Phase 2 handles history sanitation.
 4. **cited.cc production behavior must be regression-tested before release.** Open-sourcing must not regress the private hosted product.
-5. **The private baseline must remain recoverable.** See [private-baseline-recovery.md](./private-baseline-recovery.md).
+5. **The private baseline must remain recoverable.** Private recovery instructions stay outside the public repository.
 
 ## Private baseline created in Phase 1
 

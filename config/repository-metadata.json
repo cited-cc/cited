@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "1",
+  "proposedRepositoryName": "cited",
+  "publicDescription": "Open-source citation monitoring platform for AI answers that matter.",
+  "homepage": "https://cited.cc",
+  "license": "AGPL-3.0-only",
+  "defaultBranch": "main",
+  "repositoryUrl": null,
+  "organization": null,
+  "containerImageName": null,
+  "containerImageStatus": "pending",
+  "socialPreviewPath": "docs/assets/brand/social-preview.png",
+  "aboutText": "Track when AI assistants mention, recommend, and cite your brand across the prompts that matter.",
+  "topics": [
+    "ai",
+    "ai-search",
+    "citation-monitoring",
+    "brand-monitoring",
+    "geo",
+    "llm",
+    "open-source",
+    "self-hosted",
+    "nextjs",
+    "postgres"
+  ],
+  "githubSettings": {
+    "issues": true,
+    "discussions": true,
+    "wiki": false
+  },
+  "publicReleaseBlocked": true,
+  "notes": [
+    "Repository URL and organization remain null until Phase 16.",
+    "Container image publication remains blocked.",
+    "Do not configure git remotes before Phase 16 approval."
+  ]
+}

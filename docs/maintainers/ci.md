@@ -25,6 +25,7 @@ Expected GitHub check names after hosting:
 - Browser E2E
 - Docker build
 - Compose smoke
+- Documentation
 
 Security workflow checks:
 
@@ -52,7 +53,7 @@ Security workflow checks:
 
 `npm run ci:check` runs the deterministic local equivalent:
 
-- Always runs lint, typecheck, unit, security, boundary, coverage, security scripts, boundary scripts, docs integrity, and build
+- Always runs lint, typecheck, unit, security, boundary, coverage, security scripts, boundary scripts, documentation checks, and build
 - Runs PostgreSQL integration and migration CI when `DATABASE_URL` is configured
 - Runs E2E when `CITED_E2E_ENABLED=true` and PostgreSQL is available
 - Runs Docker smoke when Docker is available

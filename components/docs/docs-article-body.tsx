@@ -97,6 +97,14 @@ function GettingStartedBody() {
         Cited helps you monitor selected AI answers, preserve citation evidence,
         and understand what changed. Setup stays narrow on purpose.
       </P>
+      <DocsCallout title="Self-hosted installations">
+        Community edition operators can start with Docker: run{" "}
+        <code className="font-mono text-sm">npm run self-host:up</code>, retrieve
+        the bootstrap token with{" "}
+        <code className="font-mono text-sm">npm run self-host:token</code>, then
+        complete first-owner setup at <Link href="/setup">/setup</Link>. Mock
+        provider returns fictional labeled data by default.
+      </DocsCallout>
       <H2 id="steps">Setup steps</H2>
       <DocsStepList
         steps={[
@@ -791,6 +799,15 @@ function TroubleshootingBody() {
         Cited does not alert on every recurring occurrence. Check workspace and
         personal preferences, digest settings, and unsubscribe state.
       </P>
+      <H2 id="self-hosted">Self-hosted diagnostics</H2>
+      <Ul
+        items={[
+          "Run npm run self-host:doctor for Compose, secrets, and health checks",
+          "Confirm the worker service is running when scans stay queued",
+          "Mock provider output is fictional; switch to DataForSEO with your own credentials for live monitoring",
+          "Use Mailpit locally to test SMTP without sending external mail",
+        ]}
+      />
       <H2 id="email">Email alerts are not sending</H2>
       <P>
         Confirm your notification preferences, verify the recipient email, and

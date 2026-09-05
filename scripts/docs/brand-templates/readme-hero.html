@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1440px; height: 760px;
+    background: linear-gradient(180deg, #fbf7f0 0%, #f3ede3 100%);
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #15131a;
+    padding: 48px;
+  }
+  .shell {
+    height: 100%; border: 1px solid #e7e0d4; border-radius: 16px;
+    background: #fff; overflow: hidden; display: grid; grid-template-rows: 56px 1fr;
+  }
+  .top { background: #15131a; color: #fbf7f0; display: flex; align-items: center; padding: 0 24px; gap: 12px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #5ce1e6; }
+  .content { padding: 32px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+  .nav { display: flex; flex-direction: column; gap: 8px; }
+  .nav div { padding: 10px 12px; border-radius: 8px; color: #524e5c; }
+  .nav .active { background: #fbf7f0; color: #15131a; font-weight: 600; }
+  .panel { border: 1px solid #e7e0d4; border-radius: 12px; padding: 24px; }
+  h2 { font-size: 28px; margin-bottom: 8px; }
+  .sub { color: #524e5c; margin-bottom: 24px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { border: 1px solid #e7e0d4; border-radius: 12px; padding: 16px; }
+  .card strong { display: block; margin-bottom: 6px; }
+  .pill { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(92,225,230,0.18); color: #0a3d40; font-size: 13px; }
+</style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top"><span class="dot"></span><span>Cited · Fictional demo workspace</span></div>
+    <div class="content">
+      <div class="nav">
+        <div class="active">Dashboard</div>
+        <div>Monitors</div>
+        <div>Inbox</div>
+        <div>Notebook</div>
+      </div>
+      <div class="panel">
+        <h2>Citation activity</h2>
+        <p class="sub">Mock provider · cited-test.example</p>
+        <div class="cards">
+          <div class="card"><strong>New citation</strong><span>ChatGPT · AI citation tools</span><span class="pill">Evidence captured</span></div>
+          <div class="card"><strong>Competitor cited</strong><span>competitor-labs.example</span><span class="pill">Tracked</span></div>
+          <div class="card"><strong>Missed opportunity</strong><span>Related prompt</span><span class="pill">Review</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

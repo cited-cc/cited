@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1",
+  "screenshots": {
+    "directory": "docs/assets/screenshots",
+    "viewport": { "width": 1440, "height": 900, "deviceScaleFactor": 2 },
+    "files": [
+      "dashboard.png",
+      "monitors.png",
+      "citation-evidence.png",
+      "competitor-tracking.png",
+      "missed-opportunities.png",
+      "inbox.png",
+      "notebook.png",
+      "provider-settings.png"
+    ]
+  },
+  "brand": {
+    "directory": "docs/assets/brand",
+    "files": [
+      "social-preview.png",
+      "readme-hero.png",
+      "og-docs.png",
+      "cited-mark-light.svg",
+      "cited-mark-dark.svg"
+    ]
+  },
+  "attribution": {
+    "citedMark": "public/cited-mark.svg",
+    "aiSurfaceIcons": "public/brand/ai-surfaces/ (third-party marks; text labels preferred in docs when redistribution is uncertain)"
+  }
+}

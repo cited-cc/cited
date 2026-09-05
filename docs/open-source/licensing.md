@@ -8,7 +8,7 @@ advice. Read LICENSE and consult qualified counsel for your situation.
 The Cited public source code in this repository is licensed under the
 **GNU Affero General Public License version 3 only** (SPDX: `AGPL-3.0-only`).
 
-The complete license text is in [LICENSE](../LICENSE) at the repository root.
+The complete license text is in [LICENSE](../../LICENSE) at the repository root.
 
 ## What AGPL permits
 
@@ -54,7 +54,7 @@ automatically grant rights to:
 ## Trademarks
 
 The software license covers copyright in the source code. It does not grant
-trademark permission. See [TRADEMARKS.md](../TRADEMARKS.md).
+trademark permission. See [TRADEMARKS.md](../../TRADEMARKS.md).
 
 ## Alternative commercial licensing
 
@@ -67,6 +67,6 @@ public source in this repository.
 
 ## Next steps
 
-1. Read [LICENSE](../LICENSE)
+1. Read [LICENSE](../../LICENSE)
 2. Run `npm run license:check` for a dependency license inventory
 3. Consult counsel before production deployment or commercial redistribution

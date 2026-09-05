@@ -1,126 +1,150 @@
-# Cited
+<p align="center">
+  <img src="docs/assets/brand/cited-mark-dark.svg" alt="Cited mark" width="72" height="72" />
+</p>
 
-Cited is the open-source citation monitoring platform. Track when AI assistants
-mention, recommend, and cite your brand across the prompts that matter.
+<h1 align="center">Cited</h1>
 
-This repository is a **pre-release open-source candidate** being prepared for
-self-hosting. Publication remains blocked until readiness checks and human
-approval complete.
+<p align="center">
+  <strong>Cited is the open-source citation monitoring platform. Track when AI assistants mention, recommend, and cite your brand across the prompts that matter.</strong>
+</p>
 
-**Hosted [Cited Cloud](https://cited.cc)** at cited.cc remains a separate,
-privately operated service.
+<p align="center">
+  Cited monitors <strong>selected prompts and supported AI surfaces</strong> you configure. It does not monitor every AI answer everywhere. Surface availability depends on your selected provider.
+</p>
 
-## What Cited monitors
+<p align="center">
+  <img src="docs/assets/brand/readme-hero.png" alt="Cited dashboard showing citation activity, competitor events, and mock provider status for a fictional demo workspace" width="920" />
+</p>
 
-Cited monitors **selected prompts and supported AI surfaces** you configure. It
-does not claim to capture every AI mention everywhere on the internet.
+> **Project status:** Pre-release open-source candidate. Self-hosting works through local Docker Compose. Publication, public container images, and community repository hosting remain blocked until Phase 16 approval.
 
-When your verified domain appears in a monitored response, Cited records
-evidence and alerts your workspace.
+## Why Cited exists
 
-## Status
+Marketing teams need evidence when AI assistants cite, mention, or recommend their brand. Cited runs the prompts you care about, captures immutable response snapshots, and surfaces citations, competitor appearances, and missed opportunities in one workspace.
 
-- Sanitized public candidate with fresh Git history
-- AGPL-3.0-only licensed source (see [LICENSE](LICENSE))
-- Self-hosting and Docker documentation: **available** (`npm run self-host:up`)
-- One-command Docker Compose startup for local installations
-- Not yet announced or published for general production self-hosting
+## Core capabilities
 
-## Stack
+- **Citation monitoring** across configured prompts and supported surfaces
+- **Competitor tracking** and missed-opportunity detection
+- **Evidence ledger** with exports and notebook notes
+- **Inbox** for review workflows
+- **Self-hosted Docker** installation with secure secret generation
+- **Mock provider** for offline demos with clearly labeled fictional data
+- **DataForSEO adapter** with bring-your-own credentials for live monitoring
 
-- Next.js (App Router) + TypeScript
-- Tailwind CSS
-- Provider-neutral authentication: Clerk in cloud mode, local email/password in self-hosted mode
-- Provider-neutral database: Supabase for Cited Cloud, direct PostgreSQL 17 for self-hosted
-- Optional: Stripe, Resend, DataForSEO (bring-your-own credentials)
+## How it works
 
-## Quick start (self-hosted Docker)
+1. Verify your domain and configure your brand
+2. Add monitored prompts and choose AI surfaces
+3. The worker schedules scan runs through your provider adapter
+4. Cited classifies citations, mentions, recommendations, and competitor events
+5. Evidence lands in the inbox and notebook; notifications fire when enabled
+
+## Supported surfaces
+
+| Surface | Mock provider | DataForSEO (BYO credentials) |
+| --- | --- | --- |
+| ChatGPT | Fictional demo data | Provider-dependent |
+| Gemini | Fictional demo data | Provider-dependent |
+| Perplexity | Fictional demo data | Provider-dependent |
+| Claude | Fictional demo data | Provider-dependent |
+| Google AI Overviews | Fictional demo data | Provider-dependent |
+| Google AI Mode | Fictional demo data | Provider-dependent |
+
+Mock mode uses **fictional data** labeled `[MOCK]`. DataForSEO requires **operator-supplied credentials**.
+
+## Quickstart
+
+**Prerequisites:** Docker Compose v2, Node.js 22+, 4 GB RAM recommended.
 
 ```bash
 npm ci
 npm run self-host:up
 ```
 
-See [docs/open-source/self-hosting.md](docs/open-source/self-hosting.md).
+Then:
 
-## Local development
+1. Retrieve the bootstrap token: `npm run self-host:token`
+2. Open `/setup` and create the first owner
+3. Sign in at `/sign-in`
 
-```bash
-cp .env.self-hosted.example .env.local
-# defaults to CITED_DEPLOYMENT_MODE=self_hosted and CITED_DATABASE_PROVIDER=postgres
-npm ci
-npm run db:migrate
-npm run db:seed            # optional fictional demo fixtures
-npm run dev
+Default URL: `http://localhost:3000`. Secrets are generated in `.cited/secrets/` and are never printed automatically. Stop without deleting data: `npm run self-host:down`. Diagnostics: `npm run self-host:doctor`.
+
+Full guide: [docs/getting-started/quickstart.md](docs/getting-started/quickstart.md)
+
+## First mock scan
+
+Follow the [first monitor tutorial](docs/getting-started/first-monitor.md) to add fictional domains (`cited-test.example`), competitors (`competitor-labs.example`), prompts, and surfaces in mock mode. Optional demo fixtures: `npm run db:seed`.
+
+## Real DataForSEO setup
+
+1. Obtain DataForSEO API credentials
+2. Configure provider and credentials in `.cited/config.env` per [DataForSEO guide](docs/providers/dataforseo.md)
+3. Restart: `npm run self-host:down && npm run self-host:up`
+
+## Architecture
+
+```mermaid
+flowchart LR
+  User[Browser] --> Web[Web]
+  Web --> DB[(PostgreSQL)]
+  Worker[Worker] --> DB
+  Worker --> Web
+  Worker --> Provider[Provider adapter]
+  Provider --> Mock[Mock · fictional]
+  Provider --> DFS[DataForSEO · optional]
 ```
 
-See [docs/local-development.md](docs/local-development.md) for full setup.
+Detailed reference: [docs/reference/architecture.md](docs/reference/architecture.md)
 
-## Deployment modes
+## Self-hosted vs Cited Cloud
 
-Cited uses one authoritative server variable:
+| | Community edition | [Cited Cloud](https://cited.cc) |
+| --- | --- | --- |
+| Hosting | Self-hosted Docker | Managed |
+| Auth | Local credentials | Managed service |
+| DataForSEO | Bring your own | Managed infrastructure |
+| Billing | Not required | Managed plans (may change) |
 
-```bash
-CITED_DEPLOYMENT_MODE=cloud|self_hosted
-```
+See [feature matrix](docs/reference/feature-matrix.md). Public Docker images are **not published yet**.
 
-- `cloud`: managed Cited Cloud capabilities (Stripe, hosted analytics, marketing automation)
-- `self_hosted`: open-source deployment with Cloud-only services disabled
+## Security and privacy
 
-`NODE_ENV` remains separate (`development`, `test`, `production`). See
-[docs/open-source/deployment-modes.md](docs/open-source/deployment-modes.md).
+- Secrets in `.cited/secrets/` with restrictive permissions
+- Mock mode makes no external provider calls
+- Security reports: [SECURITY.md](SECURITY.md) (private disclosure)
+- Operator guides: [docs/security/](docs/security/)
+
+Cited is not claimed to be penetration-tested or certified for regulated compliance frameworks.
 
 ## Documentation
 
-- [Architecture](docs/architecture.md)
-- [Local development](docs/local-development.md)
-- [Publication boundary](docs/open-source/publication-boundary.md)
-- [Deployment modes](docs/open-source/deployment-modes.md)
-- [Self-hosting](docs/open-source/self-hosting.md)
-- [Docker architecture](docs/open-source/docker.md)
-- [Licensing overview](docs/open-source/licensing.md)
-- [Contributing](CONTRIBUTING.md)
-- [Security policy](SECURITY.md)
-- [Roadmap](ROADMAP.md)
+- [Documentation index](docs/README.md)
+- [Quickstart](docs/getting-started/quickstart.md)
+- [Configuration reference](docs/reference/environment-variables.md)
+- [Commands](docs/reference/commands.md)
+- [Public API](docs/reference/api.md)
 
 ## Quality checks
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run ci:check
-npm run security:scan
-npm run content:check
-npm run seo:check
-npm run publication:check
-npm run docker:check
-npm run self-host:doctor
-npm run deployment:check
-npm run license:check
+npm run lint && npm run typecheck && npm run test
+npm run docs:check && npm run readme:check && npm run assets:check
+npm run ci:check && npm run publication:check
 ```
-
-## License
-
-Cited public source is licensed under [AGPL-3.0-only](LICENSE).
-
-- You may inspect, modify, self-host, and use the software commercially under
-  AGPL terms.
-- Network operators who modify Cited may have source-disclosure obligations.
-  Read LICENSE and [docs/open-source/licensing.md](docs/open-source/licensing.md).
-- Alternative commercial licensing may be offered in the future for organizations
-  that cannot comply with AGPL requirements.
-
-Trademarks are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
-
-This is not legal advice. Consult qualified counsel for your deployment.
 
 ## Contributing
 
-Contributions require DCO signoff. See [CONTRIBUTING.md](CONTRIBUTING.md) and
-[DCO.md](DCO.md).
+Contributions require DCO signoff under **AGPL-3.0-only**. See [CONTRIBUTING.md](CONTRIBUTING.md) and [DCO.md](DCO.md).
 
-## Security
+## Roadmap
 
-Report vulnerabilities privately per [SECURITY.md](SECURITY.md). Do not open
-public issues for security reports.
+Directional milestones (not promises): [ROADMAP.md](ROADMAP.md)
+
+## License and trademark
+
+Source code: [AGPL-3.0-only](LICENSE). Trademarks: [TRADEMARKS.md](TRADEMARKS.md). This is not legal advice.
+
+## Managed Cited
+
+Prefer not to operate infrastructure? **[Cited Cloud](https://cited.cc)** is an optional managed service at cited.cc.

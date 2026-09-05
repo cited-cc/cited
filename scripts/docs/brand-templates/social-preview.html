@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1280px; height: 640px;
+    background: #fbf7f0;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: #15131a;
+    display: flex;
+    align-items: center;
+    padding: 64px 80px;
+    gap: 48px;
+  }
+  .mark {
+    width: 120px; height: 120px; border-radius: 28px;
+    background: #1e1b25; position: relative; flex-shrink: 0;
+    border: 1px solid rgba(251,247,240,0.22);
+  }
+  .mark::after {
+    content: ""; position: absolute; left: 38px; top: 46px;
+    width: 44px; height: 10px; border-radius: 5px; background: #5ce1e6;
+  }
+  h1 { font-size: 56px; letter-spacing: -0.03em; margin-bottom: 16px; }
+  p { font-size: 28px; color: #524e5c; max-width: 760px; line-height: 1.35; }
+  .tag {
+    margin-top: 28px; display: inline-block; padding: 8px 16px;
+    border: 1px solid #e7e0d4; border-radius: 999px; font-size: 18px; color: #524e5c;
+  }
+</style>
+</head>
+<body>
+  <div class="mark" aria-hidden="true"></div>
+  <div>
+    <h1>Cited</h1>
+    <p>Open-source citation monitoring for the AI answers that matter.</p>
+    <span class="tag">Self-hosted · AGPL-3.0</span>
+  </div>
+</body>
+</html>

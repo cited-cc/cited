@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8" /><style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1440px; height: 900px; overflow: hidden;
+    background: #fbf7f0; color: #15131a;
+    font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  .app { height: 100%; display: grid; grid-template-rows: 56px 1fr; }
+  .topbar {
+    background: #15131a; color: #fbf7f0; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 24px; font-size: 14px;
+  }
+  .badge { background: rgba(92,225,230,0.18); color: #0a3d40; padding: 4px 10px; border-radius: 999px; font-size: 12px; }
+  .layout { display: grid; grid-template-columns: 240px 1fr; height: 100%; }
+  .nav { background: #fff; border-right: 1px solid #e7e0d4; padding: 20px 12px; }
+  .nav a { display: block; padding: 10px 12px; border-radius: 8px; color: #524e5c; text-decoration: none; margin-bottom: 4px; }
+  .nav a.active { background: #fbf7f0; color: #15131a; font-weight: 600; }
+  main { padding: 28px 32px; overflow: hidden; }
+  h1 { font-size: 28px; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .sub { color: #524e5c; margin-bottom: 24px; font-size: 15px; }
+  .card { background: #fff; border: 1px solid #e7e0d4; border-radius: 12px; padding: 18px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e7e0d4; }
+  th { color: #524e5c; font-weight: 600; }
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; }
+  .pill.mock { background: rgba(92,225,230,0.18); color: #0a3d40; }
+  .pill.new { background: #15131a; color: #fbf7f0; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+</style></head><body>
+  <div class="app">
+    <div class="topbar"><span>Cited · Northwind Analytics</span><span class="badge">Mock provider · Fictional demo</span></div>
+    <div class="layout">
+      <nav class="nav">
+        <a class="" href="#">Dashboard</a>
+        <a class="" href="#">Monitors</a>
+        <a class="active" href="#">Inbox</a>
+        <a class="" href="#">Notebook</a>
+        <a class="" href="#">Settings</a>
+      </nav>
+      <main><h1>Citation evidence</h1><p class="sub">Immutable response snapshot · cited-test.example</p>
+    <div class="card" style="margin-bottom:16px"><strong>[MOCK] AI citation guide</strong>
+    <p class="sub" style="margin:12px 0">https://cited-test.example/guides/ai-citations</p>
+    <p>[MOCK] Cited Test Brand monitoring guide excerpt from fictional ChatGPT response.</p></div>
+    <div class="card"><strong>Evidence ledger</strong><p class="sub" style="margin-top:12px">Source link matched verified domain · confidence 0.94</p></div></main>
+    </div>
+  </div></body></html>

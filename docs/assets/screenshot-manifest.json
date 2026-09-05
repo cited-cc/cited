@@ -1,0 +1,54 @@
+{
+  "generatedAt": "2026-09-05T20:26:06.278Z",
+  "mode": "rendered",
+  "captures": [
+    {
+      "file": "dashboard.png",
+      "path": "Dashboard",
+      "output": "docs/assets/screenshots/dashboard.png",
+      "sha256": "52e44038d9ff7b94805b956581fc74db5fb294d6c40c31caa691d28818498d35"
+    },
+    {
+      "file": "monitors.png",
+      "path": "Monitors",
+      "output": "docs/assets/screenshots/monitors.png",
+      "sha256": "a11ac257649d97b787c04127d78b97f85f73dcf20ac5edb20d9befc080a7bff0"
+    },
+    {
+      "file": "inbox.png",
+      "path": "Inbox",
+      "output": "docs/assets/screenshots/inbox.png",
+      "sha256": "aa868549760fb7b26301e28522a1c79bcd866b4a19eccfa439119f1bd2671996"
+    },
+    {
+      "file": "citation-evidence.png",
+      "path": "Citation evidence",
+      "output": "docs/assets/screenshots/citation-evidence.png",
+      "sha256": "87dfa54ce0bb2f723335606591066df6c5bcda86cb09cd000339a347c348cb2c"
+    },
+    {
+      "file": "competitor-tracking.png",
+      "path": "Competitor tracking",
+      "output": "docs/assets/screenshots/competitor-tracking.png",
+      "sha256": "978cf29103835f7d52475a2f91b6061935a452f52796e7dd74c8f9be985c7620"
+    },
+    {
+      "file": "missed-opportunities.png",
+      "path": "Missed opportunities",
+      "output": "docs/assets/screenshots/missed-opportunities.png",
+      "sha256": "5af1487fc263652c341d061067e8a88d1de53e7fb2b9a25d30732670c7cb80cc"
+    },
+    {
+      "file": "notebook.png",
+      "path": "Notebook",
+      "output": "docs/assets/screenshots/notebook.png",
+      "sha256": "f9a130381e5aee7c9f425fdc11b71c40ffc95b61405f1ef07bc77db6afc7a0ab"
+    },
+    {
+      "file": "provider-settings.png",
+      "path": "Provider settings",
+      "output": "docs/assets/screenshots/provider-settings.png",
+      "sha256": "8353de7f3295119768e5d8ee9ba94c7bc593aeef50bc09df923724819390696d"
+    }
+  ]
+}

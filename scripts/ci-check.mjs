@@ -86,6 +86,13 @@ function main() {
   runStage("publication:check", "npm", ["run", "publication:check"], { allowFail: true });
   runStage("test-fixtures:check", "npm", ["run", "test-fixtures:check"]);
   runStage("docs:integrity", "npm", ["run", "docs:integrity"]);
+  runStage("docs:check", "npm", ["run", "docs:check"]);
+  runStage("readme:check", "npm", ["run", "readme:check"]);
+  runStage("assets:check", "npm", ["run", "assets:check"]);
+  runStage("docs:links", "npm", ["run", "docs:links"]);
+  runStage("env:drift", "npm", ["run", "env:drift"]);
+  runStage("commands:drift", "npm", ["run", "commands:drift"]);
+  runStage("docs-a11y", "npm", ["run", "test", "--", "tests/docs/accessibility.test.ts"]);
   runStage("docker:check", "npm", ["run", "docker:check"]);
   runStage("scheduler:check", "npm", ["run", "scheduler:check"]);
   runStage("notifications:check", "npm", ["run", "notifications:check"]);

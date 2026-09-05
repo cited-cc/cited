@@ -4,68 +4,76 @@ Thank you for your interest in contributing to Cited.
 
 ## Project status
 
-This repository is a **sanitized pre-release open-source candidate**. It is being
-prepared for future self-hosting and public collaboration.
-
-Publication remains blocked. Do not assume this repository is public, announced,
-or supported for production self-hosting yet.
+This repository is a **sanitized pre-release open-source candidate**. Publication
+remains blocked until Phase 16 release approval.
 
 See [docs/open-source/publication-boundary.md](docs/open-source/publication-boundary.md)
 for the public/private boundary.
 
 ## Prerequisites
 
-- **Node.js 20+** (22 recommended). See [docs/local-development.md](docs/local-development.md).
-- **npm** (required package manager for this repository)
-- Clerk and Supabase credentials for full local development
+- **Node.js 22+**
+- **npm** (required package manager)
+- **Docker Compose v2** for self-hosted testing
 
-## Setup
+## Setup (self-hosted)
 
 ```bash
-cp .env.example .env.local
-# Fill Clerk and Supabase values
 npm ci
-npx supabase db push
-npm run seed   # optional demo fixtures
+npm run self-host:up
+npm run self-host:token   # retrieve bootstrap token for /setup
 ```
+
+For local development without Docker:
+
+```bash
+cp .env.self-hosted.example .env.local
+npm ci
+npm run db:migrate
+npm run db:seed           # optional fictional demo fixtures
+npm run dev
+```
+
+See [docs/getting-started/manual-installation.md](docs/getting-started/manual-installation.md).
 
 ## Development commands
 
 ```bash
-npm run dev          # local development server
-npm run lint         # ESLint
-npm run typecheck    # TypeScript
-npm run test         # unit tests (Vitest)
-npm run build        # production build
-npm run security:scan
-npm run content:check
-npm run seo:check
+npm run dev
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+npm run ci:check
+npm run docs:check
 npm run publication:check
-npm run license:check
 ```
 
-Docker and full self-hosting documentation are **not complete** in this phase.
-Expect those in later release phases.
+## Documentation changes
+
+When changing user-visible behavior or configuration:
+
+1. Update relevant docs under `docs/`
+2. Run `npm run docs:check`, `npm run docs:links`, and `npm run env:drift`
+3. Regenerate screenshots when UI changes affect committed assets: `npm run docs:screenshots`
 
 ## Contribution expectations
 
 ### Scope and pull requests
 
-- Keep pull requests focused. Prefer small, reviewable changes over large mixed diffs.
+- Keep pull requests focused.
 - Explain what problem a change solves and how it was verified.
-- Update documentation when behavior, configuration, or user-visible flows change.
 - Add or update tests for behavioral changes.
 
 ### Data and secrets
 
-- Do **not** include customer data, prospect data, credentials, or production values.
-- Use fake values in fixtures and examples.
-- Do not copy private Cited Cloud code, runbooks, or operational data into this repository.
+- Do **not** include customer data, credentials, or production values.
+- Use fictional example domains (`*.example`) in fixtures.
+- Do not copy private Cited Cloud code or operational data into this repository.
 
 ### Licensing
 
-Contributions are licensed under **AGPL-3.0-only**, the same license as the
-project. See [LICENSE](LICENSE) and [docs/open-source/licensing.md](docs/open-source/licensing.md).
+Contributions are licensed under **AGPL-3.0-only**. See [LICENSE](LICENSE).
 
 ### Developer Certificate of Origin
 
@@ -75,31 +83,21 @@ Every commit must include DCO signoff:
 git commit -s -m "Describe your change"
 ```
 
-See [DCO.md](DCO.md) for the full DCO text and instructions.
-
-Signoff certifies you have the right to submit the contribution. It is not the
-same as cryptographic Git commit signing.
-
-**Legal review note:** DCO signoff does not grant the project rights to
-relicense contributions under a proprietary commercial license. If proprietary
-relicensing is ever required, a separate CLA would need legal review before
-acceptance.
+See [DCO.md](DCO.md).
 
 ## Security reports
 
-Do not report security vulnerabilities in public issues.
-
-Follow [SECURITY.md](SECURITY.md) for private reporting instructions.
+Follow [SECURITY.md](SECURITY.md). Do not open public issues for vulnerabilities.
 
 ## Code of conduct
 
-Participants must follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ## Governance
 
-See [GOVERNANCE.md](GOVERNANCE.md) for maintainer-led decision making.
+See [GOVERNANCE.md](GOVERNANCE.md).
 
 ## Questions
 
 Until GitHub Discussions is enabled after publication, use https://cited.cc/contact
-for questions that are not security issues.
+for non-security questions.

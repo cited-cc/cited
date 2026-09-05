@@ -83,11 +83,11 @@ export const DOCS_INDEX = {
   supporting:
     "Learn how to monitor selected AI answers, preserve citation evidence, and understand what changed without turning your workflow into another dashboard.",
   primaryCta: { label: "Open Cited", href: "/app" },
-  secondaryCta: { label: "Check a domain", href: "/scan" },
-  lastUpdated: "2026-07-09",
+  secondaryCta: { label: "Self-host with Docker", href: "/docs/getting-started" },
+  lastUpdated: "2026-09-05",
 } as const;
 
-const LAST_UPDATED = "2026-07-09";
+const LAST_UPDATED = "2026-09-05";
 
 export const DOCS_ARTICLES: Record<string, DocsArticleMeta> = {
   "getting-started": {
@@ -382,6 +382,8 @@ export const DOCS_ARTICLES: Record<string, DocsArticleMeta> = {
       { id: "no-notes", title: "No citation notes yet" },
       { id: "blocked", title: "Monitor is blocked" },
       { id: "alerts", title: "Fewer alerts than expected" },
+      { id: "self-hosted", title: "Self-hosted diagnostics" },
+      { id: "email", title: "Email alerts are not sending" },
       { id: "billing", title: "Billing needs attention" },
       { id: "classification", title: "Classification questions" },
       { id: "limits", title: "Plan limits and cancellation" },

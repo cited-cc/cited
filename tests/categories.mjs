@@ -63,6 +63,7 @@ export const UNIT_TESTS = excludePatterns(
     "tests/database-phase7.test.ts",
     "tests/deployment.test.ts",
     "tests/docs-phase10.test.ts",
+    "tests/docs/accessibility.test.ts",
     "tests/entitlements.test.ts",
     "tests/entitlements-phase6.test.ts",
     "tests/inbox-filters.test.ts",

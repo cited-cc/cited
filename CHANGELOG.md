@@ -14,6 +14,8 @@ once stable releases begin.
 - Sanitized open-source candidate repository with fresh Git history (Phase 2).
 - AGPL-3.0-only licensing, contributor policies, governance, and security
   foundation (Phase 3).
+- Phase 15 documentation system: README, quickstart, reference docs, brand assets,
+  screenshot workflow, and documentation CI checks.
 
 ### Notes
 

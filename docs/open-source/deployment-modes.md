@@ -145,4 +145,4 @@ Expect hosted billing, analytics, chatbot, free-scan, inbound mail, and Learn Do
 
 - [Publication boundary](./publication-boundary.md)
 - [Local development](../local-development.md)
-- [Production environment](../production-env.md)
+- [Environment variables reference](../reference/environment-variables.md)
