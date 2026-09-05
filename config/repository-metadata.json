@@ -11,7 +11,7 @@
   "defaultBranch": "main",
   "repositoryUrl": "https://github.com/cited-cc/cited",
   "containerImageName": "ghcr.io/cited-cc/cited",
-  "containerImageStatus": "pending",
+  "containerImageStatus": "published",
   "socialPreviewPath": "docs/assets/brand/social-preview.png",
   "aboutText": "Track when AI assistants mention, recommend, and cite your brand across the prompts that matter.",
   "topics": [
@@ -31,14 +31,14 @@
     "discussions": true,
     "wiki": false
   },
-  "publicReleaseBlocked": true,
+  "publicReleaseBlocked": false,
   "releaseApproval": {
-    "approved": false,
+    "approved": true,
     "owner": "cited-cc",
     "repository": "cited",
     "version": "0.1.0",
-    "approvedAt": null,
-    "approvedCommit": null
+    "approvedAt": "2026-09-05T23:25:00.000Z",
+    "approvedCommit": "6814d65b2a7fa028b35f1b2a075c27fdbde95f92"
   },
   "forbiddenRemotes": [
     "github.com/accomplish999/cited",

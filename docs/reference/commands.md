@@ -25,6 +25,7 @@ All supported `npm run` scripts in the community edition repository.
 | `npm run test:coverage` | Coverage report |
 | `npm run test:all` | Alias for full Vitest run |
 | `npm run test:e2e` | Playwright browser tests |
+| `npm run e2e:server` | Prepare database and start server for Playwright |
 | `npm run test:watch` | Vitest watch mode |
 
 ## Security
@@ -119,6 +120,9 @@ See `self-host:backup` and `self-host:upgrade` above.
 | Command | Description |
 | --- | --- |
 | `npm run ci:check` | Local CI parity runner |
+| `npm run release:check` | Release gate validation |
+| `npm run release:prepare` | Prepare local release metadata files |
+| `npm run release:artifacts` | Generate release artifact bundle |
 | `npm run workflow:check` | GitHub Actions security review |
 | `npm run test-fixtures:check` | Test fixture policy |
 | `npm run publication:check` | Publication readiness |

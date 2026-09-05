@@ -5,13 +5,14 @@ import {
   assertDockerAvailable,
   ensureConfigFile,
   gitHasRemote,
+  isPublicationBlocked,
   SECRET_DEFINITIONS,
   SECRETS_DIR,
   writeSecretFile,
 } from "./lib.mjs";
 
 function main() {
-  if (gitHasRemote()) {
+  if (isPublicationBlocked() && gitHasRemote()) {
     console.error("Refusing to initialize: unexpected Git remote is configured.");
     process.exit(1);
   }

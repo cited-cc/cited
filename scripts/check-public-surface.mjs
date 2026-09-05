@@ -201,6 +201,15 @@ function checkDeploymentMode() {
 
 function checkGitRemote() {
   try {
+    const policy = JSON.parse(read("config/publication-policy.json"));
+    if (policy.publicReleaseBlocked === false) {
+      return;
+    }
+  } catch {
+    // Fall through to remote check when policy is unavailable.
+  }
+
+  try {
     const remotes = execFileSync("git", ["-C", repoRoot, "remote"], { encoding: "utf8" }).trim();
     if (remotes) {
       addViolation("git-remote-present", ".git/config", "Community staging must not configure git remotes before publication.");

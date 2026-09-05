@@ -1,4 +1,11 @@
 <p align="center">
+  <a href="https://github.com/cited-cc/cited/actions/workflows/ci.yml"><img src="https://github.com/cited-cc/cited/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
+  <a href="https://github.com/cited-cc/cited/blob/main/LICENSE"><img src="https://img.shields.io/github/license/cited-cc/cited?label=license" alt="AGPL-3.0 license" /></a>
+  <a href="https://github.com/cited-cc/cited/releases"><img src="https://img.shields.io/github/v/release/cited-cc/cited?label=release" alt="Latest release" /></a>
+  <a href="https://cited.cc"><img src="https://img.shields.io/badge/home-cited.cc-5ce1e6" alt="Cited homepage" /></a>
+</p>
+
+<p align="center">
   <img src="docs/assets/brand/cited-mark-dark.svg" alt="Cited mark" width="72" height="72" />
 </p>
 
@@ -16,7 +23,7 @@
   <img src="docs/assets/brand/readme-hero.png" alt="Cited dashboard showing citation activity, competitor events, and mock provider status for a fictional demo workspace" width="920" />
 </p>
 
-> **Project status:** Cited v0.1.0 release candidate. Self-hosting works through local Docker Compose. Public repository hosting, container images, and GitHub Release publication remain blocked until Phase 16 operator confirmation.
+> **Project status:** Cited **v0.1.0** is the first public community release. Self-host with Docker Compose, or use [Cited Cloud](https://cited.cc) for managed hosting.
 
 ## Why Cited exists
 
@@ -106,7 +113,7 @@ Detailed reference: [docs/reference/architecture.md](docs/reference/architecture
 | DataForSEO | Bring your own | Managed infrastructure |
 | Billing | Not required | Managed plans (may change) |
 
-See [feature matrix](docs/reference/feature-matrix.md). Public Docker images are **not published yet**.
+See [feature matrix](docs/reference/feature-matrix.md). Container images publish to `ghcr.io/cited-cc/cited` on release tags.
 
 ## Security and privacy
 

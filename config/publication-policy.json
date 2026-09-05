@@ -1,13 +1,12 @@
 {
   "schemaVersion": "2",
-  "repository": "cited-open-source",
+  "repository": "cited",
   "defaultVisibility": "private",
-  "publicReleaseBlocked": true,
+  "publicReleaseBlocked": false,
   "requiredChecks": [
     "policy-valid",
     "release-not-blocked",
     "fresh-history",
-    "no-git-remote",
     "forbidden-tracked-paths",
     "forbidden-filename-patterns",
     "sensitive-content-patterns",
@@ -29,8 +28,7 @@
     "security-documentation-present",
     "clean-install-verification",
     "ci-readiness",
-    "public-surface-verification",
-    "human-approval"
+    "public-surface-verification"
   ],
   "forbiddenTrackedPaths": [
     {
@@ -311,11 +309,11 @@
     "See docs/open-source/fresh-history.md for repository origin expectations."
   ],
   "releaseApproval": {
-    "approved": false,
-    "owner": null,
-    "repository": null,
-    "version": null,
-    "approvedAt": null,
-    "approvedCommit": null
+    "approved": true,
+    "owner": "cited-cc",
+    "repository": "cited",
+    "version": "0.1.0",
+    "approvedAt": "2026-09-05T23:25:00.000Z",
+    "approvedCommit": "6814d65b2a7fa028b35f1b2a075c27fdbde95f92"
   }
 }

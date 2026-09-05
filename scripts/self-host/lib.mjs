@@ -150,3 +150,14 @@ export function gitHasRemote() {
     return false;
   }
 }
+
+export function isPublicationBlocked() {
+  try {
+    const policy = JSON.parse(
+      readFileSync(join(REPO_ROOT, "config/publication-policy.json"), "utf8"),
+    );
+    return policy.publicReleaseBlocked !== false;
+  } catch {
+    return true;
+  }
+}

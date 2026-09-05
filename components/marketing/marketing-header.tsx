@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { CitedLogo } from "@/components/shared/cited-logo";
+import { GitHubStarLink } from "@/components/marketing/github-star-link";
 import { Button } from "@/components/ui/button";
 import { trackMarketingEvent } from "@/lib/analytics/marketing";
 import { MARKETING_NAV } from "@/lib/content/marketing";
@@ -14,11 +15,14 @@ type MarketingHeaderProps = {
   className?: string;
   /** Server-resolved session; avoids shipping Clerk client JS on marketing. */
   signedIn?: boolean;
+  /** Live GitHub star count when the public repository is reachable. */
+  githubStarCount?: number | null;
 };
 
 export function MarketingHeader({
   className,
   signedIn = false,
+  githubStarCount = null,
 }: MarketingHeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuId = useId();
@@ -78,6 +82,7 @@ export function MarketingHeader({
           ) : null}
         </div>
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <GitHubStarLink starCount={githubStarCount} />
           {signedIn ? (
             <Button
               variant="citation"
