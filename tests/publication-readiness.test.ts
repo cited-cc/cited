@@ -142,9 +142,9 @@ describe("publication readiness policy", () => {
   it("parses a valid policy", () => {
     const policyPath = join(process.cwd(), "config/publication-policy.json");
     const policy = validatePolicyShape(readPolicyFile(policyPath));
-    expect(policy.repository).toBe("cited-open-source");
+    expect(policy.repository).toBe("cited");
     expect(policy.defaultVisibility).toBe("private");
-    expect(policy.publicReleaseBlocked).toBe(true);
+    expect(policy.publicReleaseBlocked).toBe(false);
   });
 
   it("fails closed when policy is missing", () => {

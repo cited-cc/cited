@@ -105,13 +105,26 @@ export function checkMermaidBlocks(filePath, content) {
 }
 
 export function checkForbiddenClaims(content, relativePath) {
+  let publicationBlocked = true;
+  try {
+    const policy = JSON.parse(
+      readFileSync(join(REPO_ROOT, "config/publication-policy.json"), "utf8"),
+    );
+    publicationBlocked = policy.publicReleaseBlocked !== false;
+  } catch {
+    publicationBlocked = true;
+  }
+
   const forbidden = [
     { pattern: /github\.com\/[^\s)]+\/cited[^\s)]*\.git/i, id: "fake-clone-url", msg: "Placeholder clone URL detected." },
-    { pattern: /shields\.io|img\.shields\.io/i, id: "fake-badge", msg: "Remote-dependent badge detected (Phase 16 only)." },
+    { pattern: /shields\.io|img\.shields\.io/i, id: "fake-badge", msg: "Remote-dependent badge detected (Phase 16 only).", skipWhenPublished: true },
     { pattern: /\b\d{1,3}(,\d{3})+\+?\s*(users|customers|stars|downloads)\b/i, id: "fabricated-metric", msg: "Unverifiable usage metric detected." },
-    { pattern: /docker pull cited/i, id: "docker-pull-claim", msg: "Public Docker pull claim before publication." },
+    { pattern: /docker pull cited/i, id: "docker-pull-claim", msg: "Public Docker pull claim before publication.", skipWhenPublished: true },
   ];
   for (const rule of forbidden) {
+    if (!publicationBlocked && rule.skipWhenPublished) {
+      continue;
+    }
     if (rule.pattern.test(content)) {
       add(rule.id, relativePath, rule.msg);
     }
