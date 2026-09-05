@@ -22,6 +22,7 @@ import {
 } from "@/components/shared/cited-glyphs";
 import { CitedLogo } from "@/components/shared/cited-logo";
 import { Button } from "@/components/ui/button";
+import { getPublicDeploymentMode } from "@/lib/deployment/public-config";
 import { cn } from "@/lib/utils";
 
 type NavGlyph = ComponentType<{ className?: string; size?: number }>;
@@ -66,6 +67,7 @@ export function AppSidebar({
 }: AppSidebarProps) {
   const pathname = usePathname();
   const { openCreateMonitor } = useAppChrome();
+  const showBilling = getPublicDeploymentMode() === "cloud";
 
   function isActive(href: string, exact?: boolean) {
     if (exact || href === "/app") return pathname === "/app";
@@ -165,28 +167,35 @@ export function AppSidebar({
             <AccountMenuSwitcher avatarSize="sm" />
           </div>
 
-          <div className="grid grid-cols-2 divide-x divide-cited-line-subtle border-t border-cited-line-subtle">
-            <Link
-              href="/app/billing"
-              onClick={onNavigate}
-              aria-current={isActive("/app/billing") ? "page" : undefined}
-              className={cn(
-                "flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs transition-colors duration-150",
-                isActive("/app/billing")
-                  ? "bg-cited-surface-raised text-cited-ink"
-                  : "text-cited-ink-muted hover:bg-cited-surface-hover hover:text-cited-ink",
-              )}
-            >
-              <AlertSlip
-                size={14}
-                className={
+          <div
+            className={cn(
+              "grid divide-cited-line-subtle border-t border-cited-line-subtle",
+              showBilling ? "grid-cols-2 divide-x" : "grid-cols-1",
+            )}
+          >
+            {showBilling ? (
+              <Link
+                href="/app/billing"
+                onClick={onNavigate}
+                aria-current={isActive("/app/billing") ? "page" : undefined}
+                className={cn(
+                  "flex items-center justify-center gap-1.5 px-2 py-2.5 text-xs transition-colors duration-150",
                   isActive("/app/billing")
-                    ? "text-cited-citation"
-                    : "text-cited-ink-subtle"
-                }
-              />
-              Billing
-            </Link>
+                    ? "bg-cited-surface-raised text-cited-ink"
+                    : "text-cited-ink-muted hover:bg-cited-surface-hover hover:text-cited-ink",
+                )}
+              >
+                <AlertSlip
+                  size={14}
+                  className={
+                    isActive("/app/billing")
+                      ? "text-cited-citation"
+                      : "text-cited-ink-subtle"
+                  }
+                />
+                Billing
+              </Link>
+            ) : null}
             <Link
               href="/docs"
               target="_blank"

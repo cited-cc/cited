@@ -17,9 +17,9 @@ function readState(): E2EState {
 async function signIn(page: import("@playwright/test").Page) {
   const state = readState();
   await page.goto("/sign-in");
-  await page.getByLabel(/email/i).fill(state.ownerEmail);
-  await page.getByLabel(/^password$/i).fill(state.ownerPassword);
-  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.locator('input[name="email"]').fill(state.ownerEmail);
+  await page.locator('input[name="password"]').fill(state.ownerPassword);
+  await page.getByRole("button", { name: /continue/i }).click();
   await page.waitForURL(/\/app/, { timeout: 60_000 });
 }
 
@@ -39,8 +39,8 @@ test.describe("administration surfaces", () => {
 
   test("does not expose cloud analytics or checkout routes", async ({ page }) => {
     for (const route of ["/checkout", "/app/billing"]) {
-      await page.goto(route);
-      expect(page.url()).not.toMatch(/checkout|billing/);
+      const response = await page.goto(route);
+      expect(response?.status() ?? 0).toBeGreaterThanOrEqual(400);
     }
   });
 });

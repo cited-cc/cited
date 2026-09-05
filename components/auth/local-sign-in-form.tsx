@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 import { AuthField } from "@/components/auth/auth-field";
 import { Button } from "@/components/ui/button";
 import { Callout } from "@/components/ui/callout";
-import { localSignInAction } from "@/lib/auth/actions";
 
 type LocalSignInFormProps = {
   redirectUrl: string;
@@ -17,6 +18,7 @@ export function LocalSignInForm({
   redirectUrl,
   showSetupLink = false,
 }: LocalSignInFormProps) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -29,14 +31,20 @@ export function LocalSignInForm({
     setError(null);
     setSubmitting(true);
 
-    const formData = new FormData(event.currentTarget);
-    formData.set("redirectUrl", redirectUrl);
+    const result = await signIn("local-credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    const result = await localSignInAction(formData);
-    if (!result.ok) {
-      setError(result.error);
+    if (result?.error) {
+      setError("Incorrect email or password.");
       setSubmitting(false);
+      return;
     }
+
+    router.push(redirectUrl);
+    router.refresh();
   }
 
   return (

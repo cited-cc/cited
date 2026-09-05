@@ -36,26 +36,10 @@ export default defineConfig({
   globalTeardown: e2eEnabled ? "./tests/e2e/global-teardown.ts" : undefined,
   webServer: e2eEnabled
     ? {
-        command: "npm run start",
+        command: "npm run e2e:server",
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 240_000,
-        env: {
-          ...process.env,
-          TZ: "UTC",
-          NODE_ENV: "production",
-          CITED_DEPLOYMENT_MODE: "self_hosted",
-          NEXT_PUBLIC_CITED_DEPLOYMENT_MODE: "self_hosted",
-          CITED_AUTH_PROVIDER: "local",
-          NEXT_PUBLIC_CITED_AUTH_PROVIDER: "local",
-          CITED_DATABASE_PROVIDER: "postgres",
-          CITED_MONITORING_PROVIDER: "mock",
-          CITED_ALLOW_MOCK_PROVIDER: "true",
-          NOTIFICATIONS_ENABLED: "false",
-          CITED_EMAIL_PROVIDER: "disabled",
-          MONITORING_ENABLED: "true",
-          CITED_JOBS_WORKER_TICK_MS: "5000",
-        },
       }
     : undefined,
 });

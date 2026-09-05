@@ -65,6 +65,10 @@ describe("buildPostgresConnectionUrl", () => {
       DATABASE_MIGRATION_PASSWORD_FILE: ownerPath,
       DATABASE_PASSWORD_FILE: runtimePath,
     };
+    delete env.DATABASE_URL;
+    delete env.DATABASE_MIGRATION_URL;
+    delete env.CITED_E2E_DATABASE_URL;
+    delete env.CITED_INTEGRATION_DATABASE_URL;
 
     hydrateSecretFilesFromEnv(env);
     process.env = env;

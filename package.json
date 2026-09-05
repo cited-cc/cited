@@ -79,7 +79,8 @@
     "self-host:smoke": "node scripts/self-host/smoke-test.mjs",
     "release:check": "node scripts/release-check.mjs",
     "release:prepare": "node scripts/release-prepare.mjs",
-    "release:artifacts": "node scripts/release-artifacts.mjs"
+    "release:artifacts": "node scripts/release-artifacts.mjs",
+    "e2e:server": "node scripts/e2e/prepare-and-start.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",

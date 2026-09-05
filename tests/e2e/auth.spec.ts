@@ -19,24 +19,27 @@ test.describe("authentication", () => {
     const state = readState();
 
     await page.goto("/sign-in");
-    await page.getByLabel(/email/i).fill(state.ownerEmail);
-    await page.getByLabel(/^password$/i).fill(state.ownerPassword);
-    await page.getByRole("button", { name: /sign in/i }).click();
+    await page.locator('input[name="email"]').fill(state.ownerEmail);
+    await page.locator('input[name="password"]').fill(state.ownerPassword);
+    await page.getByRole("button", { name: /continue/i }).click();
     await page.waitForURL(/\/app/, { timeout: 60_000 });
 
     await page.goto("/app/settings");
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-    await page.goto("/sign-out");
-    await page.goto("/app/settings");
-    await page.waitForURL(/\/sign-in/, { timeout: 30_000 });
+    await page.getByRole("button", { name: /account menu/i }).click();
+    await page.getByRole("menuitem", { name: /sign out/i }).click();
+    await page.waitForURL(/\/($|\?)/, { timeout: 30_000 });
+
+    await page.goto("/app/settings", { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveURL(/\/sign-in/, { timeout: 30_000 });
   });
 
   test("rejects invalid sign-in credentials generically", async ({ page }) => {
     await page.goto("/sign-in");
-    await page.getByLabel(/email/i).fill("invalid-user@example.com");
-    await page.getByLabel(/^password$/i).fill("wrong-password-12");
-    await page.getByRole("button", { name: /sign in/i }).click();
-    await expect(page.getByText(/could not sign in|invalid/i)).toBeVisible();
+    await page.locator('input[name="email"]').fill("invalid-user@example.com");
+    await page.locator('input[name="password"]').fill("wrong-password-12");
+    await page.getByRole("button", { name: /continue/i }).click();
+    await expect(page.getByRole("note")).toContainText(/incorrect email or password/i);
   });
 });

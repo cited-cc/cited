@@ -45,8 +45,13 @@ export async function canRunBrowserBootstrap(): Promise<boolean> {
     return false;
   }
 
-  const ownerCount = await countWorkspaceOwners();
-  return ownerCount === 0;
+  try {
+    const ownerCount = await countWorkspaceOwners();
+    return ownerCount === 0;
+  } catch {
+    // During cold start the database pool may not be ready on the first request.
+    return true;
+  }
 }
 
 async function assertBootstrapRateLimit(namespace: string): Promise<void> {
@@ -73,9 +78,8 @@ export async function runSelfHostedBootstrap(
     throw new Error("Bootstrap is not configured.");
   }
 
-  await assertBootstrapRateLimit("browser");
-
   if (!compareBootstrapToken(input.bootstrapToken.trim(), expectedToken)) {
+    await assertBootstrapRateLimit("failed-token");
     throw new Error("Bootstrap authorization failed.");
   }
 

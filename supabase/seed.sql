@@ -122,15 +122,14 @@ ON CONFLICT (id) DO NOTHING;
 
 -- Fictional competitor domain
 INSERT INTO public.competitor_hostnames (
-  id, workspace_id, hostname, normalized_hostname, display_name, active
+  id, workspace_id, normalized_hostname, display_hostname, brand_name
 )
 SELECT
   '11111111-1111-4111-8111-111111111401',
   w.id,
   'competitor-labs.example',
   'competitor-labs.example',
-  'Competitor Labs (fictional)',
-  true
+  'Competitor Labs (fictional)'
 FROM public.workspaces w
 WHERE w.slug = 'cited-demo'
 ON CONFLICT (id) DO NOTHING;
@@ -138,7 +137,7 @@ ON CONFLICT (id) DO NOTHING;
 -- Completed mock scan run and evidence chain
 INSERT INTO public.scan_runs (
   id, workspace_id, monitor_configuration_id, status, requested_at,
-  started_at, completed_at, provider, provider_task_id, provider_cost_usd,
+  scheduled_for, started_at, completed_at, provider, provider_task_id, provider_cost_usd,
   response_hash, metadata
 )
 SELECT
@@ -146,6 +145,7 @@ SELECT
   w.id,
   '11111111-1111-4111-8111-111111111301',
   'completed',
+  timezone('utc', now()) - interval '2 hours',
   timezone('utc', now()) - interval '2 hours',
   timezone('utc', now()) - interval '2 hours',
   timezone('utc', now()) - interval '1 hour',

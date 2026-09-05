@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getDeploymentMode } from "@/lib/deployment/mode";
+import { getPostgresAdminClient } from "@/lib/db/providers/postgres/pool";
 import {
   getSupabaseAdminClient,
   type CitedSupabaseClient,
@@ -25,9 +26,6 @@ function resolveDatabaseProviderForAdmin(): "postgres" | "supabase" {
  */
 export function createAdminSupabaseClient(): CitedSupabaseClient {
   if (resolveDatabaseProviderForAdmin() === "postgres") {
-    // Lazy load to keep the pg driver out of non-postgres server bundles.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { getPostgresAdminClient } = require("@/lib/db/providers/postgres/pool") as typeof import("@/lib/db/providers/postgres/pool");
     return getPostgresAdminClient() as unknown as CitedSupabaseClient;
   }
   return getSupabaseAdminClient();

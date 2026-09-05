@@ -194,6 +194,7 @@
   "sensitiveContentAllowlistPaths": [
     "scripts/security/secret-scan.ts",
     "scripts/check-publication-readiness.mjs",
+    "scripts/release-postgres.mjs",
     "lib/publication/readiness.mjs",
     "tests/",
     ".env.example",

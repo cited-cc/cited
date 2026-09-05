@@ -64,6 +64,22 @@ function parseOrExpression(expression: string, params: unknown[]): string {
   return `(${clauses.join(" OR ")})`;
 }
 
+function omitUndefinedValues(row: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(row).filter(([, value]) => value !== undefined),
+  );
+}
+
+function returningColumns(columns: string): string {
+  if (!columns || columns === "*") {
+    return "*";
+  }
+  return columns
+    .split(",")
+    .map((column) => assertColumn(column.trim()))
+    .join(", ");
+}
+
 function buildWhere(filters: Filter[], params: unknown[]): string {
   if (filters.length === 0) {
     return "";
@@ -170,6 +186,17 @@ class PostgresQueryBuilder<T = Record<string, unknown>> {
     columns = "*",
     options?: { count?: "exact"; head?: boolean },
   ): this {
+    if (
+      this.operation === "insert" ||
+      this.operation === "update" ||
+      this.operation === "delete" ||
+      this.operation === "upsert"
+    ) {
+      this.columns = columns;
+      this.returning = true;
+      return this;
+    }
+
     this.operation = "select";
     this.columns = columns;
     if (options?.count === "exact") {
@@ -311,20 +338,20 @@ class PostgresQueryBuilder<T = Record<string, unknown>> {
           sql = `SELECT ${this.columns} FROM public.${this.table}${buildWhere(this.filters, params)}${orderSql}${limitSql}`;
         }
       } else if (this.operation === "insert") {
-        const row = this.insertRows[0] ?? {};
+        const row = omitUndefinedValues(this.insertRows[0] ?? {});
         const columns = Object.keys(row).map(assertColumn);
         const placeholders = columns.map((column) => pushParam(params, row[column]));
-        sql = `INSERT INTO public.${this.table} (${columns.join(", ")}) VALUES (${placeholders.join(", ")}) RETURNING *`;
+        sql = `INSERT INTO public.${this.table} (${columns.join(", ")}) VALUES (${placeholders.join(", ")}) RETURNING ${returningColumns(this.columns)}`;
       } else if (this.operation === "update") {
         const setColumns = Object.keys(this.updateValues).map(assertColumn);
         const setSql = setColumns
           .map((column) => `${column} = ${pushParam(params, this.updateValues[column])}`)
           .join(", ");
-        sql = `UPDATE public.${this.table} SET ${setSql}${buildWhere(this.filters, params)} RETURNING *`;
+        sql = `UPDATE public.${this.table} SET ${setSql}${buildWhere(this.filters, params)} RETURNING ${returningColumns(this.columns)}`;
       } else if (this.operation === "delete") {
-        sql = `DELETE FROM public.${this.table}${buildWhere(this.filters, params)} RETURNING *`;
+        sql = `DELETE FROM public.${this.table}${buildWhere(this.filters, params)} RETURNING ${returningColumns(this.columns)}`;
       } else if (this.operation === "upsert") {
-        const row = this.insertRows[0] ?? {};
+        const row = omitUndefinedValues(this.insertRows[0] ?? {});
         const columns = Object.keys(row).map(assertColumn);
         const placeholders = columns.map((column) => pushParam(params, row[column]));
         const conflict = this.upsertConflict
@@ -335,7 +362,7 @@ class PostgresQueryBuilder<T = Record<string, unknown>> {
               .map((column) => `${column} = EXCLUDED.${column}`)
               .join(", ")}`
           : " ON CONFLICT DO NOTHING";
-        sql = `INSERT INTO public.${this.table} (${columns.join(", ")}) VALUES (${placeholders.join(", ")})${conflict} RETURNING *`;
+        sql = `INSERT INTO public.${this.table} (${columns.join(", ")}) VALUES (${placeholders.join(", ")})${conflict} RETURNING ${returningColumns(this.columns)}`;
       }
 
       const result = await this.executor.query(sql, params);

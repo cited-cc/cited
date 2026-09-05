@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { auth as localAuth } from "@/auth";
-import { canRunBrowserBootstrap } from "@/lib/auth/bootstrap";
 
 const isProtectedPageRoute = (pathname: string) =>
   pathname.startsWith("/app") ||
@@ -48,10 +47,7 @@ async function handleLocalProxy(request: NextRequest) {
   }
 
   if (pathname.startsWith("/setup")) {
-    const eligible = await canRunBrowserBootstrap();
-    if (!eligible) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
-    }
+    // Bootstrap eligibility is enforced in the setup route (Node runtime with DB access).
     return;
   }
 

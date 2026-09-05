@@ -4,6 +4,8 @@ import { AuthShell } from "@/components/auth/auth-shell";
 import { SetupForm } from "@/components/auth/setup-form";
 import { canRunBrowserBootstrap } from "@/lib/auth/bootstrap";
 
+export const dynamic = "force-dynamic";
+
 export default async function SetupPage() {
   const eligible = await canRunBrowserBootstrap();
   if (!eligible) {

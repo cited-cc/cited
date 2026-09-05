@@ -155,27 +155,30 @@ export async function ensureWorkspaceNotificationPreferences(
 
   const { data: inserted, error } = await admin
     .from("notification_preferences")
-    .insert({
-      workspace_id: workspaceId,
-      email_enabled: true,
-      weekly_digest_enabled: true,
-      instant_citation_alerts_enabled: true,
-      competitor_alerts_enabled: false,
-      missed_opportunity_alerts_enabled: true,
-      slack_enabled: false,
-      instant_email_enabled: true,
-      instant_slack_enabled: false,
-      weekly_digest_email_enabled: true,
-      weekly_digest_slack_enabled: false,
-      monitor_issue_email_enabled: true,
-      monitor_issue_slack_enabled: false,
-      recurring_citation_alerts_enabled: false,
-      send_empty_digest: false,
-      digest_weekday: 1,
-      digest_hour: 9,
-      digest_timezone: "UTC",
-      slack_status: "not_connected",
-    })
+    .upsert(
+      {
+        workspace_id: workspaceId,
+        email_enabled: true,
+        weekly_digest_enabled: true,
+        instant_citation_alerts_enabled: true,
+        competitor_alerts_enabled: false,
+        missed_opportunity_alerts_enabled: true,
+        slack_enabled: false,
+        instant_email_enabled: true,
+        instant_slack_enabled: false,
+        weekly_digest_email_enabled: true,
+        weekly_digest_slack_enabled: false,
+        monitor_issue_email_enabled: true,
+        monitor_issue_slack_enabled: false,
+        recurring_citation_alerts_enabled: false,
+        send_empty_digest: false,
+        digest_weekday: 1,
+        digest_hour: 9,
+        digest_timezone: "UTC",
+        slack_status: "not_connected",
+      },
+      { onConflict: "workspace_id" },
+    )
     .select("*")
     .single();
 
