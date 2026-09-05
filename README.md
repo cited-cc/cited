@@ -16,7 +16,7 @@
   <img src="docs/assets/brand/readme-hero.png" alt="Cited dashboard showing citation activity, competitor events, and mock provider status for a fictional demo workspace" width="920" />
 </p>
 
-> **Project status:** Pre-release open-source candidate. Self-hosting works through local Docker Compose. Publication, public container images, and community repository hosting remain blocked until Phase 16 approval.
+> **Project status:** Cited v0.1.0 release candidate. Self-hosting works through local Docker Compose. Public repository hosting, container images, and GitHub Release publication remain blocked until Phase 16 operator confirmation.
 
 ## Why Cited exists
 

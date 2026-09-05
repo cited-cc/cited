@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2",
-  "repository": "cited-public",
+  "repository": "cited-open-source",
   "defaultVisibility": "private",
   "publicReleaseBlocked": true,
   "requiredChecks": [
@@ -301,12 +301,20 @@
     "docs/architecture.md"
   ],
   "notes": [
-    "This policy guards the cited-public publication candidate.",
+    "This policy guards the cited-open-source publication candidate.",
     "Fresh Git history is required. No private repository history may be imported.",
     "No remote may be configured until an approved publication phase.",
     "A clean secret scan is necessary but not sufficient for publication readiness.",
     "No repository may become public until publicReleaseBlocked is false and all blocking checks pass.",
     "License selection: AGPL-3.0-only (Phase 3).",
     "See docs/open-source/fresh-history.md for repository origin expectations."
-  ]
+  ],
+  "releaseApproval": {
+    "approved": false,
+    "owner": null,
+    "repository": null,
+    "version": null,
+    "approvedAt": null,
+    "approvedCommit": null
+  }
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Pool } from "pg";
+import { fileURLToPath } from "node:url";
 
 import { buildPostgresConnectionUrl } from "../lib/db/build-connection-url.mjs";
 import { hydrateSecretFilesFromEnv } from "../lib/env/secret-files.mjs";
@@ -36,20 +37,24 @@ async function roleExists(client, roleName) {
   return result.rowCount === 1;
 }
 
+function quoteIdent(value) {
+  return `"${value.replace(/"/g, '""')}"`;
+}
+
+function quotePassword(value) {
+  return `'${String(value).replace(/'/g, "''")}'`;
+}
+
 async function ensureRole(client, roleName, password, options) {
   const exists = await roleExists(client, roleName);
   if (!exists) {
     await client.query(
-      `CREATE ROLE ${quoteIdent(roleName)} LOGIN PASSWORD $1 ${options.createFlags}`,
-      [password],
+      `CREATE ROLE ${quoteIdent(roleName)} LOGIN ${options.createFlags}`,
     );
-    return;
   }
-  await client.query(`ALTER ROLE ${quoteIdent(roleName)} PASSWORD $1`, [password]);
-}
-
-function quoteIdent(value) {
-  return `"${value.replace(/"/g, '""')}"`;
+  await client.query(
+    `ALTER ROLE ${quoteIdent(roleName)} PASSWORD ${quotePassword(password)}`,
+  );
 }
 
 async function main() {
@@ -98,7 +103,11 @@ async function main() {
   }
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exit(1);
-});
+export { main as initDatabaseRoles };
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  });
+}

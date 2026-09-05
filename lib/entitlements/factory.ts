@@ -39,6 +39,7 @@ export function isSelfHostedEntitlementSource(
   return source === "self_hosted";
 }
 
-export function isCloudEntitlementSource(_source: EntitlementSource): boolean {
+export function isCloudEntitlementSource(source: EntitlementSource): boolean {
+  void source;
   return false;
 }

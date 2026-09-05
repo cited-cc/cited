@@ -38,5 +38,15 @@ describe("secret file helpers", () => {
     const env: NodeJS.ProcessEnv = { ...process.env, AUTH_SECRET_FILE: filePath };
     hydrateSecretFilesFromEnv(env);
     expect(env.AUTH_SECRET).toBe("hydrated");
+    expect(env.AUTH_SECRET_FILE).toBeUndefined();
+  });
+
+  it("resolves hydrated secrets without ambiguous file pointers", () => {
+    const dir = mkdtempSync(join(tmpdir(), "cited-secret-"));
+    const filePath = join(dir, "secret");
+    writeFileSync(filePath, "hydrated", { mode: 0o600 });
+    const env: NodeJS.ProcessEnv = { ...process.env, DATABASE_PASSWORD_FILE: filePath };
+    hydrateSecretFilesFromEnv(env);
+    expect(resolveSecretFromEnv("DATABASE_PASSWORD", env)).toBe("hydrated");
   });
 });

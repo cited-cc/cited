@@ -47,12 +47,9 @@ CITED_ALLOW_MOCK_PROVIDER=true
 
 Live monitoring with operator-supplied credentials:
 
-```bash
-CITED_MONITORING_PROVIDER=dataforseo
-CITED_ALLOW_MOCK_PROVIDER=false
-DATAFORSEO_LOGIN=your_login
-DATAFORSEO_PASSWORD=your_password
-```
+- Set `CITED_MONITORING_PROVIDER` to `dataforseo`
+- Set `CITED_ALLOW_MOCK_PROVIDER` to `false`
+- Add DataForSEO login and password via `.cited/config.env` or secret files (see [DataForSEO guide](../providers/dataforseo.md))
 
 Restart the stack after changing provider configuration.
 

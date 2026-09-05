@@ -71,4 +71,4 @@ export const SUPPORT_REQUEST_GUIDANCE = {
   note: "Cited does not promise a response time. Clear details help support investigate faster.",
 } as const;
 
-export const APP_VERSION_LABEL = "1.0.0";
+export const APP_VERSION_LABEL = "0.1.0";

@@ -1,4 +1,4 @@
-import type { AiSurfaceKey, MonitoringFrequency, PlanKey } from "@/types/product";
+import type { MonitoringFrequency, PlanKey } from "@/types/product";
 
 import {
   PLAN_ENTITLEMENTS,

@@ -11,11 +11,13 @@ Live monitoring uses the DataForSEO API with **operator-supplied credentials**.
 
 ## Configuration
 
-```bash
-DATAFORSEO_LOGIN=your_login
-DATAFORSEO_PASSWORD=your_password
-DATAFORSEO_API_BASE_URL=https://api.dataforseo.com
-```
+Set in `.cited/config.env` or via secret files:
+
+- `CITED_MONITORING_PROVIDER` → `dataforseo`
+- `CITED_ALLOW_MOCK_PROVIDER` → `false`
+- `MONITORING_ENABLED` → `true`
+- `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD` (or `DATAFORSEO_PASSWORD_FILE`)
+- `DATAFORSEO_API_BASE_URL` → official DataForSEO host (default: `https://api.dataforseo.com`)
 
 Secret file variants (`DATAFORSEO_PASSWORD_FILE`) are supported.
 

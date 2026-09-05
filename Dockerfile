@@ -34,10 +34,21 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 FROM base AS runtime
+ARG VERSION=0.0.0-dev
+ARG REVISION=unknown
+ARG SOURCE_URL=https://github.com/PLACEHOLDER/PLACEHOLDER
+LABEL org.opencontainers.image.title="Cited" \
+    org.opencontainers.image.description="Open-source citation monitoring platform for AI answers that matter." \
+    org.opencontainers.image.version="${VERSION}" \
+    org.opencontainers.image.source="${SOURCE_URL}" \
+    org.opencontainers.image.revision="${REVISION}" \
+    org.opencontainers.image.licenses="AGPL-3.0-only"
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
-    HOSTNAME=0.0.0.0
+    HOSTNAME=0.0.0.0 \
+    CITED_IMAGE_VERSION="${VERSION}" \
+    CITED_IMAGE_REVISION="${REVISION}"
 
 RUN groupadd --gid 1001 cited \
     && useradd --uid 1001 --gid cited --create-home --shell /usr/sbin/nologin cited

@@ -1,4 +1,4 @@
-import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
 import { auth as localAuth } from "@/auth";
 import { canRunBrowserBootstrap } from "@/lib/auth/bootstrap";
@@ -40,7 +40,7 @@ function redirectToSignIn(request: NextRequest) {
   return NextResponse.redirect(signIn);
 }
 
-async function handleLocalProxy(request: NextRequest, _event: NextFetchEvent) {
+async function handleLocalProxy(request: NextRequest) {
   const pathname = new URL(request.url).pathname;
 
   if (isCronInternalRoute(pathname)) {
@@ -75,8 +75,8 @@ async function handleLocalProxy(request: NextRequest, _event: NextFetchEvent) {
   }
 }
 
-export default async function proxy(request: NextRequest, event: NextFetchEvent) {
-  return handleLocalProxy(request, event);
+export default async function proxy(request: NextRequest) {
+  return handleLocalProxy(request);
 }
 
 export const config = {

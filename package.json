@@ -76,7 +76,10 @@
     "self-host:doctor": "node scripts/self-host/doctor.mjs",
     "self-host:backup": "node scripts/self-host/backup.mjs",
     "self-host:upgrade": "node scripts/self-host/upgrade.mjs",
-    "self-host:smoke": "node scripts/self-host/smoke-test.mjs"
+    "self-host:smoke": "node scripts/self-host/smoke-test.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "release:prepare": "node scripts/release-prepare.mjs",
+    "release:artifacts": "node scripts/release-artifacts.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.90.1",

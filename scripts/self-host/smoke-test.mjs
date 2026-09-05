@@ -10,6 +10,7 @@ import {
   readSecretFileContents,
   resolveSecretFromEnv,
 } from "../../lib/env/secret-files.mjs";
+import { composeEnv } from "./lib.mjs";
 
 const repoRoot = process.cwd();
 
@@ -57,10 +58,12 @@ async function testSmoke() {
   assert(projectName.startsWith("cited-phase11-test-"), "safe project prefix");
 
   console.log(`Starting isolated smoke project: ${projectName}`);
+  const smokeEnv = { ...composeEnv(), COMPOSE_PROJECT_NAME: projectName };
+
   const init = spawnSync("node", ["scripts/self-host/init.mjs"], {
     cwd: repoRoot,
     stdio: "inherit",
-    env: { ...process.env, COMPOSE_PROJECT_NAME: projectName },
+    env: smokeEnv,
   });
   if (init.status !== 0) {
     console.error("Smoke init failed.");
@@ -70,7 +73,7 @@ async function testSmoke() {
   const up = spawnSync(
     "docker",
     ["compose", "-f", "docker-compose.yml", "-p", projectName, "up", "-d", "--build"],
-    { cwd: repoRoot, stdio: "inherit" },
+    { cwd: repoRoot, stdio: "inherit", env: smokeEnv },
   );
   if (up.status !== 0) {
     console.error("Smoke compose up failed.");
@@ -81,7 +84,7 @@ async function testSmoke() {
   const status = spawnSync("node", ["scripts/self-host/status.mjs"], {
     cwd: repoRoot,
     stdio: "inherit",
-    env: { ...process.env, COMPOSE_PROJECT_NAME: projectName },
+    env: smokeEnv,
   });
   if (status.status !== 0) {
     console.error("Smoke status failed.");
@@ -90,7 +93,7 @@ async function testSmoke() {
   const inspect = spawnSync(
     "docker",
     ["compose", "-p", projectName, "ps", "--format", "{{.Name}}"],
-    { cwd: repoRoot, encoding: "utf8" },
+    { cwd: repoRoot, encoding: "utf8", env: smokeEnv },
   );
   const names = (inspect.stdout ?? "").trim().split("\n").filter(Boolean);
   assert(
@@ -101,6 +104,7 @@ async function testSmoke() {
   spawnSync("docker", ["compose", "-p", projectName, "down", "-v"], {
     cwd: repoRoot,
     stdio: "inherit",
+    env: smokeEnv,
   });
   console.log(`Removed disposable smoke project: ${projectName}`);
 }

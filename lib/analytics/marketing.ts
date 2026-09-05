@@ -25,8 +25,9 @@ export type MarketingEventPayload = {
 };
 
 export function trackMarketingEvent(
-  _event: MarketingEventName,
-  _payload?: MarketingEventPayload,
+  event: MarketingEventName,
+  payload?: MarketingEventPayload,
 ): void {
-  // No-op in community edition.
+  void event;
+  void payload;
 }

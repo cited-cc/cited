@@ -1,12 +1,15 @@
 {
-  "schemaVersion": "1",
+  "schemaVersion": "2",
   "proposedRepositoryName": "cited",
+  "repositoryName": null,
+  "organization": null,
+  "version": "0.1.0",
+  "releaseState": "preparing",
   "publicDescription": "Open-source citation monitoring platform for AI answers that matter.",
   "homepage": "https://cited.cc",
   "license": "AGPL-3.0-only",
   "defaultBranch": "main",
   "repositoryUrl": null,
-  "organization": null,
   "containerImageName": null,
   "containerImageStatus": "pending",
   "socialPreviewPath": "docs/assets/brand/social-preview.png",
@@ -29,9 +32,17 @@
     "wiki": false
   },
   "publicReleaseBlocked": true,
+  "releaseApproval": {
+    "approved": false,
+    "owner": null,
+    "repository": null,
+    "version": null,
+    "approvedAt": null,
+    "approvedCommit": null
+  },
   "notes": [
-    "Repository URL and organization remain null until Phase 16.",
-    "Container image publication remains blocked.",
+    "Repository URL and organization remain null until Phase 16 operator confirmation.",
+    "Container image publication remains blocked until public release approval.",
     "Do not configure git remotes before Phase 16 approval."
   ]
 }

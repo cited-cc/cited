@@ -12,17 +12,6 @@ const SCAN_IGNORE_DIRS = new Set([
   "coverage",
 ]);
 
-const NEUTRAL_CORE_PREFIXES = [
-  "lib/monitoring/",
-  "lib/citations/",
-  "lib/domains/",
-  "lib/evidence/",
-  "lib/export/",
-  "lib/inbox/",
-  "lib/notebook/",
-  "lib/entitlements/",
-];
-
 const APPROVED_DATAFORSEO_IMPORT_PREFIXES = [
   "lib/providers/dataforseo/",
   "lib/providers/bootstrap.ts",
@@ -100,12 +89,6 @@ function walk(dir, acc = []) {
     }
   }
   return acc;
-}
-
-function isNeutralCore(path) {
-  return NEUTRAL_CORE_PREFIXES.some(
-    (prefix) => path.startsWith(prefix) || path === prefix,
-  );
 }
 
 function isApprovedDataForSeoImport(path) {

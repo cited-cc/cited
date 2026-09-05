@@ -60,8 +60,9 @@ export function sanitizeProductEventPayload(
 }
 
 export function trackProductEvent(
-  _event: ProductEventName | string,
-  _payload?: ProductEventPayload,
+  event: ProductEventName | string,
+  payload?: ProductEventPayload,
 ): void {
-  // No-op in community edition.
+  void event;
+  void payload;
 }

@@ -7,7 +7,6 @@ import {
   type DigestHighlight,
   type RenderedEmail,
 } from "@/emails/templates";
-import { buildAppAbsoluteUrl } from "@/lib/notifications/app-url";
 import {
   buildInstantEventSlackPayload,
   buildMonitorIssueSlackPayload,

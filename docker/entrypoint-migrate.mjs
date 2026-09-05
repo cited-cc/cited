@@ -5,5 +5,8 @@ import { hydrateDatabaseUrlsFromEnv } from "../lib/db/build-connection-url.mjs";
 hydrateSecretFilesFromEnv();
 hydrateDatabaseUrlsFromEnv();
 
-await import("../scripts/db-init-roles.mjs");
-await import("../scripts/db-migrate.mjs");
+const { initDatabaseRoles } = await import("../scripts/db-init-roles.mjs");
+await initDatabaseRoles();
+
+const { runDatabaseMigrations } = await import("../scripts/db-migrate.mjs");
+await runDatabaseMigrations();

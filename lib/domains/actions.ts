@@ -140,11 +140,12 @@ export async function addWorkspaceDomainAction(formData: FormData): Promise<
 }
 
 export async function updatePortfolioExtraDomainsAction(
-  _targetExtraDomains: number,
+  targetExtraDomains: number,
 ): Promise<
   | { ok: true; maxDomains: number }
   | { ok: false; message: string }
 > {
+  void targetExtraDomains;
   return {
     ok: false,
     message:
