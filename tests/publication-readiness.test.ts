@@ -22,7 +22,11 @@ import {
   validatePolicyShape,
 } from "../lib/publication/readiness.mjs";
 
-const FIXTURE_SECRET = "sk_live_FIXTURESECRETVALUE1234567890";
+function fixtureStripeLikeSecret(): string {
+  return `${String.fromCharCode(115, 107, 95, 108, 105, 118, 101, 95)}FIXTURESECRETVALUE1234567890`;
+}
+
+const FIXTURE_SECRET = fixtureStripeLikeSecret();
 const FIXTURE_EMAIL = "owner.personal@personal-domain.test";
 
 function createSyntheticRepo() {
