@@ -138,7 +138,7 @@ describe("publication readiness policy", () => {
   it("parses a valid policy", () => {
     const policyPath = join(process.cwd(), "config/publication-policy.json");
     const policy = validatePolicyShape(readPolicyFile(policyPath));
-    expect(policy.repository).toBe("cited-public");
+    expect(policy.repository).toBe("cited-open-source");
     expect(policy.defaultVisibility).toBe("private");
     expect(policy.publicReleaseBlocked).toBe(true);
   });

@@ -36,7 +36,7 @@ RUN npm ci --omit=dev
 FROM base AS runtime
 ARG VERSION=0.0.0-dev
 ARG REVISION=unknown
-ARG SOURCE_URL=https://github.com/PLACEHOLDER/PLACEHOLDER
+ARG SOURCE_URL=https://github.com/cited-cc/cited
 LABEL org.opencontainers.image.title="Cited" \
     org.opencontainers.image.description="Open-source citation monitoring platform for AI answers that matter." \
     org.opencontainers.image.version="${VERSION}" \

@@ -1,16 +1,16 @@
 {
   "schemaVersion": "2",
   "proposedRepositoryName": "cited",
-  "repositoryName": null,
-  "organization": null,
+  "repositoryName": "cited",
+  "organization": "cited-cc",
   "version": "0.1.0",
-  "releaseState": "preparing",
+  "releaseState": "target-confirmed",
   "publicDescription": "Open-source citation monitoring platform for AI answers that matter.",
   "homepage": "https://cited.cc",
   "license": "AGPL-3.0-only",
   "defaultBranch": "main",
-  "repositoryUrl": null,
-  "containerImageName": null,
+  "repositoryUrl": "https://github.com/cited-cc/cited",
+  "containerImageName": "ghcr.io/cited-cc/cited",
   "containerImageStatus": "pending",
   "socialPreviewPath": "docs/assets/brand/social-preview.png",
   "aboutText": "Track when AI assistants mention, recommend, and cite your brand across the prompts that matter.",
@@ -34,15 +34,20 @@
   "publicReleaseBlocked": true,
   "releaseApproval": {
     "approved": false,
-    "owner": null,
-    "repository": null,
-    "version": null,
+    "owner": "cited-cc",
+    "repository": "cited",
+    "version": "0.1.0",
     "approvedAt": null,
     "approvedCommit": null
   },
+  "forbiddenRemotes": [
+    "github.com/accomplish999/cited",
+    "github.com/accomplish999/cited-public"
+  ],
   "notes": [
-    "Repository URL and organization remain null until Phase 16 operator confirmation.",
+    "Confirmed public target: cited-cc/cited (separate from private accomplish999/cited).",
+    "GitHub organization cited-cc must be created before remote setup.",
     "Container image publication remains blocked until public release approval.",
-    "Do not configure git remotes before Phase 16 approval."
+    "Do not configure git remotes until Phase 16 release gates pass."
   ]
 }

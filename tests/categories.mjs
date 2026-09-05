@@ -22,6 +22,7 @@ export const SECURITY_TESTS = [
   "tests/phase11-security-legal.test.ts",
   "tests/phase13-security.test.ts",
   "tests/secret-files.test.ts",
+  "tests/build-connection-url.test.ts",
   "tests/auth.test.ts",
   "tests/auth-permissions.test.ts",
   "tests/auth-redirects.test.ts",

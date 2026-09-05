@@ -43,5 +43,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - This release is an initial community edition, not a production guarantee or v1.0 milestone.
 - Managed hosting remains available separately at [cited.cc](https://cited.cc).
 
-[Unreleased]: https://github.com/PLACEHOLDER/PLACEHOLDER/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/PLACEHOLDER/PLACEHOLDER/releases/tag/v0.1.0
+[Unreleased]: https://github.com/cited-cc/cited/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/cited-cc/cited/releases/tag/v0.1.0
