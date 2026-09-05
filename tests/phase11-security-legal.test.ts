@@ -16,6 +16,7 @@ import {
 } from "@/lib/content/legal";
 import { MARKETING_FOOTER } from "@/lib/content/marketing";
 import {
+  buildSelfHostedContentSecurityPolicy,
   getContentSecurityPolicy,
   getSecurityHeaders,
 } from "@/lib/security/headers";
@@ -221,25 +222,21 @@ describe("phase 11 security headers and csp", () => {
     expect(map["Content-Security-Policy"]).toContain("default-src 'self'");
   });
 
-  it("keeps clerk and stripe origins available in csp", () => {
+  it("uses self-hosted csp without cloud-only origins in community edition", () => {
     const csp = getContentSecurityPolicy();
-    expect(csp).toContain("https://*.clerk.com");
-    expect(csp).toContain("https://js.stripe.com");
-    expect(csp).toContain("https://checkout.stripe.com");
-    expect(csp).toContain("https://challenges.cloudflare.com");
+    expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).not.toContain("clerk.com");
+    expect(csp).not.toContain("stripe.com");
     expect(csp).not.toContain("api.dataforseo.com");
     expect(csp).not.toContain("hooks.slack.com");
   });
 
-  it("allows clerk captcha (turnstile) in script and frame sources", () => {
-    const csp = getContentSecurityPolicy();
-    expect(csp).toMatch(
-      /script-src[^;]*https:\/\/challenges\.cloudflare\.com/,
-    );
-    expect(csp).toMatch(
-      /frame-src[^;]*https:\/\/challenges\.cloudflare\.com/,
-    );
+  it("builds explicit self-hosted csp without third-party script hosts", () => {
+    const csp = buildSelfHostedContentSecurityPolicy();
+    expect(csp).toMatch(/script-src 'self' 'unsafe-inline'/);
+    expect(csp).toContain("frame-src 'none'");
+    expect(csp).not.toContain("unsafe-eval");
   });
 
   it("omits hsts outside production", () => {

@@ -9,7 +9,11 @@
 | No stable public release yet | **Current state** |
 
 There is **no stable public version** yet. This repository remains a
-pre-release candidate and is not ready for production self-hosting.
+pre-release candidate and is not ready for production self-hosting without
+operator hardening review.
+
+Cited is **not** claimed to be penetration-tested, SOC 2 certified, HIPAA
+compliant, or GDPR compliant.
 
 ## Reporting a vulnerability
 
@@ -26,7 +30,7 @@ Report security issues through the Cited contact page:
 
 https://cited.cc/contact
 
-Select a private/security-appropriate contact method if offered. Do not include
+Select a private or security-appropriate contact method if offered. Do not include
 credentials, customer data, or personal information in the initial report.
 
 ## What to include
@@ -67,13 +71,28 @@ follow this policy, subject to applicable law.
 - Including live credentials, tokens, or personal data in reports
 - Publicly disclosing unresolved critical issues without coordination
 - Automated scanning that degrades production services
+- Testing production self-hosted instances without operator permission
 
 ## Scope
 
-This policy covers the **public Cited source** in this repository.
+This policy covers the **public Cited community edition source** in this
+repository (self-hosted distribution).
 
 It does **not** authorize testing of cited.cc production infrastructure,
 customer accounts, or private Cited Cloud systems without explicit permission.
+
+## Community edition vs cited.cc
+
+The open-source community edition is a separate self-hosted distribution from
+**hosted Cited Cloud** at cited.cc. Security findings in this repository do not
+automatically apply to cited.cc operations, and vice versa.
+
+## Security documentation
+
+- [Threat model](docs/security/threat-model.md)
+- [Privacy and data](docs/security/privacy-and-data.md)
+- [Hardening guide](docs/security/hardening.md)
+- [Release checklist](docs/security/release-checklist.md)
 
 ## Recognition
 

@@ -100,8 +100,11 @@ async function requireExportActor(
   };
 }
 
-function assertRateLimit(actor: ExportActor, kind: string): void {
-  const result = assertExportRateLimit({
+async function assertExportRateLimitForActor(
+  actor: ExportActor,
+  kind: string,
+): Promise<void> {
+  const result = await assertExportRateLimit({
     key: `export:${actor.workspaceId}:${actor.clerkUserId}:${kind}`,
     limit: 10,
     windowMs: 60_000,
@@ -307,7 +310,7 @@ export async function exportCitationEventsCsv(
   options: ExportOptions = {},
 ): Promise<{ filename: string; body: string; contentType: string }> {
   const actor = await requireExportActor("member");
-  assertRateLimit(actor, "csv");
+  await assertExportRateLimitForActor(actor, "csv");
   const { events, prompts, domains, memberStates, tooLarge } = await loadEvents(
     actor,
     options,
@@ -368,7 +371,7 @@ export async function exportCitationEventsJson(
   options: ExportOptions = {},
 ): Promise<{ filename: string; body: string; contentType: string }> {
   const actor = await requireExportActor("member");
-  assertRateLimit(actor, "json");
+  await assertExportRateLimitForActor(actor, "json");
   const { events, prompts, domains, memberStates, tooLarge } = await loadEvents(
     actor,
     options,
@@ -422,7 +425,7 @@ export async function exportCitationNoteMarkdown(
   options: ExportOptions = {},
 ): Promise<{ filename: string; body: string; contentType: string }> {
   const actor = await requireExportActor("member");
-  assertRateLimit(actor, "note-md");
+  await assertExportRateLimitForActor(actor, "note-md");
   const workspaceId = requireWorkspaceScope(actor.workspaceId);
   const admin = createAdminSupabaseClient();
 
@@ -634,7 +637,7 @@ export async function exportNotebookMarkdown(
   options: ExportOptions = {},
 ): Promise<{ filename: string; body: string; contentType: string }> {
   const actor = await requireExportActor("member");
-  assertRateLimit(actor, "notebook-md");
+  await assertExportRateLimitForActor(actor, "notebook-md");
   const workspaceId = requireWorkspaceScope(actor.workspaceId);
   const admin = createAdminSupabaseClient();
 
@@ -718,7 +721,7 @@ export async function exportWorkspaceEvidenceJson(
   options: ExportOptions = {},
 ): Promise<{ filename: string; body: string; contentType: string }> {
   const actor = await requireExportActor("admin");
-  assertRateLimit(actor, "workspace-json");
+  await assertExportRateLimitForActor(actor, "workspace-json");
   const workspaceId = requireWorkspaceScope(actor.workspaceId);
   const admin = createAdminSupabaseClient();
   const { events, prompts, domains, tooLarge } = await loadEvents(

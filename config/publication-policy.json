@@ -25,6 +25,8 @@
     "auth-architecture-present",
     "entitlement-architecture-present",
     "database-architecture-present",
+    "security-baseline-present",
+    "security-documentation-present",
     "clean-install-verification",
     "public-surface-verification",
     "human-approval"

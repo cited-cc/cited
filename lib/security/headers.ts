@@ -1,21 +1,21 @@
 /**
  * Production security headers and Content-Security-Policy for Cited.
  *
- * CSP notes:
- * - Clerk and Stripe require their script/frame/connect origins.
- * - Clerk bot protection (Turnstile) requires challenges.cloudflare.com
- *   in script-src and frame-src, or sign-up/sign-in captcha fails.
- * - Vercel Analytics requires va.vercel-scripts.com when installed.
- * - DataFast is same-origin via Next.js rewrites (/js/script.js, /api/events).
- * - DataForSEO, Resend, and Slack secrets never appear in client CSP needs.
- * - 'unsafe-inline' for styles is required by Next.js / Clerk styling today.
- * - 'unsafe-eval' is avoided in production.
+ * Community edition (self_hosted) uses a minimal CSP without Clerk, Stripe,
+ * or hosted analytics origins. Cloud overlay may extend CSP when present.
  */
 
 export type SecurityHeader = {
   key: string;
   value: string;
 };
+
+function isSelfHostedForHeaders(): boolean {
+  const mode =
+    process.env.CITED_DEPLOYMENT_MODE ??
+    process.env.NEXT_PUBLIC_CITED_DEPLOYMENT_MODE;
+  return mode !== "cloud";
+}
 
 const CLERK_SCRIPT_ORIGINS = [
   "https://*.clerk.accounts.dev",
@@ -30,7 +30,6 @@ const CLERK_CONNECT_ORIGINS = [
   "https://api.clerk.com",
 ].join(" ");
 
-/** Cloudflare Turnstile host used by Clerk bot protection. */
 const CLERK_CAPTCHA_ORIGIN = "https://challenges.cloudflare.com";
 
 const STRIPE_ORIGINS = [
@@ -41,9 +40,29 @@ const STRIPE_ORIGINS = [
   "https://api.stripe.com",
 ].join(" ");
 
-const VERCEL_ANALYTICS = "https://va.vercel-scripts.com https://vitals.vercel-insights.com";
+const VERCEL_ANALYTICS =
+  "https://va.vercel-scripts.com https://vitals.vercel-insights.com";
 
-function buildContentSecurityPolicy(): string {
+export function buildSelfHostedContentSecurityPolicy(): string {
+  const directives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' data:",
+    "connect-src 'self'",
+    "frame-src 'none'",
+    "worker-src 'self' blob:",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ];
+  return directives.join("; ");
+}
+
+function buildCloudContentSecurityPolicy(): string {
   const directives = [
     "default-src 'self'",
     `script-src 'self' 'unsafe-inline' ${CLERK_SCRIPT_ORIGINS} ${CLERK_CAPTCHA_ORIGIN} https://js.stripe.com ${VERCEL_ANALYTICS}`,
@@ -60,6 +79,13 @@ function buildContentSecurityPolicy(): string {
     "upgrade-insecure-requests",
   ];
   return directives.join("; ");
+}
+
+function buildContentSecurityPolicy(): string {
+  if (isSelfHostedForHeaders()) {
+    return buildSelfHostedContentSecurityPolicy();
+  }
+  return buildCloudContentSecurityPolicy();
 }
 
 export function getSecurityHeaders(options?: {
@@ -86,7 +112,6 @@ export function getSecurityHeaders(options?: {
   ];
 
   if (includeHsts) {
-    // Preload omitted until all cited.cc subdomains are confirmed HTTPS-ready.
     headers.push({
       key: "Strict-Transport-Security",
       value: "max-age=31536000; includeSubDomains",

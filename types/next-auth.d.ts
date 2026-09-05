@@ -20,5 +20,6 @@ declare module "next-auth/jwt" {
     provider?: "local" | "clerk";
     providerSubject?: string;
     passwordChangedAt?: number;
+    invalidated?: boolean;
   }
 }

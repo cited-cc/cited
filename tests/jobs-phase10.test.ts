@@ -27,7 +27,8 @@ describe("background job registry", () => {
     expect(selfHostedJobs).toContain("monitoring.dispatch");
     expect(selfHostedJobs).toContain("notifications.dispatch");
     expect(selfHostedJobs).toContain("notifications.digests");
-    expect(selfHostedJobs).toHaveLength(3);
+    expect(selfHostedJobs).toContain("security.retention");
+    expect(selfHostedJobs).toHaveLength(4);
   });
 
   it("does not expose removed cloud-only jobs", () => {

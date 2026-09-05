@@ -1,0 +1,13 @@
+{
+  "responseText": "<script>alert(1)</script>",
+  "citations": [
+    {
+      "url": "javascript:alert(1)",
+      "title": "x".repeat(50000),
+      "snippet": "y".repeat(50000)
+    }
+  ],
+  "providerMetadata": {
+    "model": "test"
+  }
+}

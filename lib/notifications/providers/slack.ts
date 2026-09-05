@@ -4,6 +4,7 @@ import {
   isNotificationsEnabled,
 } from "@/lib/env";
 import type { SlackSendResult } from "@/lib/notifications/types";
+import { assertAllowedRuntimeFetchUrl } from "@/lib/security/egress";
 import { decryptSecret, encryptSecret } from "@/lib/security/encryption";
 import { logger } from "@/lib/security/logger";
 
@@ -91,11 +92,13 @@ export async function sendSlackWebhook(input: {
   const timeout = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT_MS);
 
   try {
+    assertAllowedRuntimeFetchUrl(webhookUrl);
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input.payload),
       signal: controller.signal,
+      redirect: "manual",
     });
 
     const durationMs = Date.now() - started;

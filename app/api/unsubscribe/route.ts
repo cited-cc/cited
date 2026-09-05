@@ -6,7 +6,7 @@ import {
 } from "@/lib/notifications/unsubscribe";
 import {
   RATE_LIMIT_PRESETS,
-  assertRateLimit,
+  assertRateLimitDurable,
   fingerprintFromRequest,
 } from "@/lib/security/rate-limit";
 
@@ -17,7 +17,7 @@ export const runtime = "nodejs";
  * Does not reveal whether an email exists.
  */
 export async function POST(request: Request) {
-  const rate = assertRateLimit({
+  const rate = await assertRateLimitDurable({
     key: fingerprintFromRequest(request, "unsubscribe"),
     ...RATE_LIMIT_PRESETS.unsubscribe,
   });

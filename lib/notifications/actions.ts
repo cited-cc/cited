@@ -28,7 +28,7 @@ import { isInstantEventNotificationType } from "@/lib/notifications/types";
 import { getOptionalServerEnv, isNotificationsEnabled } from "@/lib/env";
 import {
   RATE_LIMIT_PRESETS,
-  assertRateLimit,
+  assertRateLimitDurable,
 } from "@/lib/security/rate-limit";
 import type { WorkspaceRole } from "@/types/product";
 
@@ -36,8 +36,8 @@ type ActionResult<T extends object = object> =
   | ({ ok: true } & T)
   | { ok: false; error: string };
 
-function checkNotificationTestRateLimit(key: string): boolean {
-  const result = assertRateLimit({
+async function checkNotificationTestRateLimit(key: string): Promise<boolean> {
+  const result = await assertRateLimitDurable({
     key,
     ...RATE_LIMIT_PRESETS.notificationTest,
   });
@@ -218,7 +218,7 @@ export async function sendTestEmailToSelf(): Promise<ActionResult> {
     return { ok: false, error: "Only owners and admins can send test emails." };
   }
 
-  if (!checkNotificationTestRateLimit(`email-test:${ctx.clerkUserId}`)) {
+  if (!(await checkNotificationTestRateLimit(`email-test:${ctx.clerkUserId}`))) {
     return { ok: false, error: "Wait a minute before sending another test." };
   }
 

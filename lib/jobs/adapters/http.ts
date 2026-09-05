@@ -29,6 +29,8 @@ function defaultSecretForJob(jobId: BackgroundJobId): string | undefined {
     case "notifications.dispatch":
     case "notifications.digests":
       return getNotificationsCronSecret(env);
+    case "security.retention":
+      return getMonitoringCronSecret(env);
     default: {
       const _exhaustive: never = jobId;
       return _exhaustive;

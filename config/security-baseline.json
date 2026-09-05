@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "1",
+  "description": "Machine-readable security invariants for the Cited community edition.",
+  "categories": {
+    "authentication": {
+      "minPasswordLength": 12,
+      "maxPasswordLength": 256,
+      "passwordHashVersion": "scrypt-v1",
+      "genericAuthErrors": true,
+      "noDefaultAdmin": true,
+      "noAccountEnumeration": true,
+      "durableLoginRateLimit": true
+    },
+    "sessions": {
+      "httpOnlyCookies": true,
+      "secureCookiesInProduction": true,
+      "sameSiteLax": true,
+      "boundedExpiration": true,
+      "rotateOnLogin": true,
+      "invalidateOnPasswordChange": true,
+      "invalidateOnAccountDisable": true,
+      "noCustomCryptoSessionFormat": true
+    },
+    "authorization": {
+      "workspaceScopedQueries": true,
+      "idsAloneNeverGrantAccess": true,
+      "finalOwnerProtection": true,
+      "unauthorizedHidesExistence": true,
+      "matrixModule": "lib/auth/permissions.ts"
+    },
+    "bootstrap": {
+      "singleUse": true,
+      "tokenNeverInResponsesOrLogs": true,
+      "unavailableAfterCompletion": true,
+      "durableRateLimit": true
+    },
+    "rateLimiting": {
+      "durableForAuth": true,
+      "durableForExport": true,
+      "durableForContact": true,
+      "durableForUnsubscribe": true,
+      "durableForMonitorActions": true,
+      "hashedFingerprints": true
+    },
+    "inputLimits": {
+      "rejectOversizedBodies": true,
+      "boundNestedCollections": true,
+      "serverSideSchemas": true
+    },
+    "database": {
+      "parameterizedQueries": true,
+      "allowlistDynamicIdentifiers": true,
+      "boundPagination": true,
+      "runtimeNotSuperuser": true,
+      "noTrustAuth": true,
+      "redactConnectionErrors": true
+    },
+    "providerEgress": {
+      "noGenericUrlFetch": true,
+      "neverFetchCitationUrls": true,
+      "disableEndpointOverridesInProduction": true,
+      "allowlistedHostsOnly": true,
+      "boundedTimeouts": true,
+      "module": "lib/security/egress.ts"
+    },
+    "notificationEgress": {
+      "slackOfficialHostOnly": true,
+      "noSlackRedirectFollow": true,
+      "smtpFromConfigurationOnly": true,
+      "noTlsVerificationBypass": true
+    },
+    "encryption": {
+      "platformPrimitivesOnly": true,
+      "versionedFormats": true,
+      "uniqueNonces": true,
+      "constantTimeCompare": true,
+      "noHardcodedKeys": true,
+      "module": "lib/security/encryption.ts"
+    },
+    "logging": {
+      "structuredLogs": true,
+      "recursiveRedaction": true,
+      "noStackTracesInProductionResponses": true,
+      "module": "lib/security/logger.ts"
+    },
+    "securityHeaders": {
+      "contentSecurityPolicy": true,
+      "xContentTypeOptions": true,
+      "referrerPolicy": true,
+      "permissionsPolicy": true,
+      "frameAncestorsNone": true,
+      "hstsInProduction": true,
+      "module": "lib/security/headers.ts"
+    },
+    "cors": {
+      "noPermissiveCredentialedCors": true
+    },
+    "redirects": {
+      "allowlistedDestinations": true,
+      "serverControlledCanonicalUrl": true
+    },
+    "exports": {
+      "csvFormulaInjectionGuard": true,
+      "workspaceScoped": true,
+      "boundedOutput": true,
+      "excludeSecrets": true,
+      "module": "lib/export/csv.ts"
+    },
+    "retention": {
+      "administratorConfigured": true,
+      "conservativeDefaults": true,
+      "dryRunSupport": true,
+      "workerExecuted": true,
+      "neverDeleteActiveWork": true,
+      "module": "lib/security/retention.ts"
+    },
+    "container": {
+      "nonRootRuntime": true,
+      "capDropAll": true,
+      "noNewPrivileges": true,
+      "readOnlyRootFilesystem": true,
+      "internalDatabaseNetwork": true,
+      "webPortOnly": true
+    },
+    "dependencyPolicy": {
+      "lockfileRequired": true,
+      "licenseCheck": true,
+      "auditCommand": "security:audit",
+      "sbomCommand": "sbom:generate"
+    },
+    "secretHandling": {
+      "secretFilesGitignored": true,
+      "noSecretsInClientCode": true,
+      "noSecretsInLogs": true
+    }
+  },
+  "requiredFiles": [
+    "config/security-baseline.json",
+    "scripts/check-security-baseline.mjs",
+    "docs/security/threat-model.md",
+    "docs/security/privacy-and-data.md",
+    "docs/security/hardening.md",
+    "docs/security/release-checklist.md",
+    "lib/security/egress.ts",
+    "lib/security/retention.ts",
+    "lib/security/headers.ts",
+    "lib/security/logger.ts",
+    "lib/security/encryption.ts",
+    "lib/security/rate-limit.ts",
+    "lib/auth/permissions.ts",
+    "lib/export/csv.ts",
+    "tests/phase13-security.test.ts"
+  ],
+  "requiredScripts": {
+    "security:check": "scripts/check-security-baseline.mjs",
+    "security:scan": "scripts/security/secret-scan.ts",
+    "security:audit": "scripts/security-audit.mjs",
+    "sbom:generate": "scripts/generate-sbom.mjs"
+  },
+  "egressAllowlist": {
+    "runtimeFetchHosts": [
+      "api.dataforseo.com",
+      "sandbox.dataforseo.com",
+      "hooks.slack.com"
+    ],
+    "developmentOnlyHosts": [
+      "localhost",
+      "127.0.0.1"
+    ],
+    "forbiddenPatterns": [
+      "generic-url-fetch-endpoint",
+      "citation-url-fetch",
+      "call-home-telemetry"
+    ],
+    "inventoryModule": "lib/security/egress.ts"
+  },
+  "forbiddenClientOrigins": [
+    "clerk.accounts.dev",
+    "clerk.com",
+    "js.stripe.com",
+    "va.vercel-scripts.com",
+    "vitals.vercel-insights.com"
+  ],
+  "forbiddenPatterns": [
+    {
+      "id": "unsafe-eval-csp",
+      "path": "lib/security/headers.ts",
+      "pattern": "unsafe-eval",
+      "reason": "CSP must not include unsafe-eval."
+    },
+    {
+      "id": "dangerously-set-inner-html-evidence",
+      "glob": "components/evidence/**",
+      "pattern": "dangerouslySetInnerHTML",
+      "reason": "Evidence components must not inject HTML."
+    },
+    {
+      "id": "auth-secret-client",
+      "glob": "components/**",
+      "pattern": "AUTH_SECRET",
+      "reason": "Auth secrets must not appear in client components."
+    }
+  ],
+  "publicationChecks": [
+    "security-baseline-present",
+    "security-documentation-present",
+    "egress-allowlist-present",
+    "no-call-home-telemetry",
+    "recursive-log-redaction",
+    "export-sanitization",
+    "retention-controls",
+    "container-protections",
+    "sbom-command-present",
+    "security-audit-command-present"
+  ]
+}

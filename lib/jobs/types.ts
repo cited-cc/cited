@@ -4,6 +4,7 @@ export const BACKGROUND_JOB_IDS = [
   "monitoring.dispatch",
   "notifications.dispatch",
   "notifications.digests",
+  "security.retention",
 ] as const;
 
 export type BackgroundJobId = (typeof BACKGROUND_JOB_IDS)[number];

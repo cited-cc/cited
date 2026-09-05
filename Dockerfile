@@ -29,6 +29,10 @@ ENV CITED_DOCKER_BUILD=true \
     CITED_EMAIL_PROVIDER=disabled
 RUN npm run build
 
+FROM base AS prod-deps
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
 FROM base AS runtime
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
@@ -47,9 +51,10 @@ COPY --from=build /app/supabase/migrations ./supabase/migrations
 COPY --from=build /app/scripts ./scripts
 COPY --from=build /app/lib ./lib
 COPY --from=build /app/docker ./docker
-COPY --from=build /app/package.json ./package.json
+COPY --from=prod-deps /app/node_modules ./node_modules_overlay
 
-RUN npm install --omit=dev tsx@4.21.0 pg@8.23.0 \
+RUN cp -rn node_modules_overlay/* node_modules/ \
+    && rm -rf node_modules_overlay \
     && chown -R cited:cited /app
 
 USER cited

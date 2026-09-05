@@ -1,6 +1,7 @@
 import { monitoringDispatchJob } from "@/lib/jobs/handlers/monitoring-dispatch";
 import { notificationsDigestsJob } from "@/lib/jobs/handlers/notifications-digests";
 import { notificationsDispatchJob } from "@/lib/jobs/handlers/notifications-dispatch";
+import { securityRetentionJob } from "@/lib/jobs/handlers/security-retention";
 import type {
   BackgroundJobId,
   RegisteredBackgroundJob,
@@ -30,6 +31,14 @@ const JOB_REGISTRY: Record<BackgroundJobId, RegisteredBackgroundJob> =
       httpPath: "/api/internal/notifications/digests",
       cronSecretEnvKeys: Object.freeze([
         "NOTIFICATIONS_CRON_SECRET",
+        "MONITORING_CRON_SECRET",
+        "CRON_SECRET",
+      ]),
+    }),
+    "security.retention": Object.freeze({
+      definition: securityRetentionJob,
+      httpPath: "/api/internal/security/retention",
+      cronSecretEnvKeys: Object.freeze([
         "MONITORING_CRON_SECRET",
         "CRON_SECRET",
       ]),

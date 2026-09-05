@@ -9,13 +9,16 @@ import { createMonitor } from "@/lib/monitoring/create-monitor";
 import { calculateNextRunAt } from "@/lib/monitoring/schedule";
 import { isAiSurfaceEnabled } from "@/lib/monitoring/surfaces";
 import {
-  assertRateLimit,
+  assertRateLimitDurable,
   RATE_LIMIT_PRESETS,
 } from "@/lib/security/rate-limit";
 import type { AiSurfaceKey, MonitoringFrequency, PlanKey } from "@/types/product";
 
-function enforceMonitorActionRateLimit(workspaceId: string, action: string): void {
-  const result = assertRateLimit({
+async function enforceMonitorActionRateLimit(
+  workspaceId: string,
+  action: string,
+): Promise<void> {
+  const result = await assertRateLimitDurable({
     key: `monitor:${action}:${workspaceId}`,
     ...RATE_LIMIT_PRESETS.monitorManualAction,
   });
@@ -39,7 +42,7 @@ export async function createMonitorAction(input: {
       "admin",
       "member",
     ]);
-    enforceMonitorActionRateLimit(input.workspaceId, "create");
+    await enforceMonitorActionRateLimit(input.workspaceId, "create");
 
     const admin = createAdminSupabaseClient();
     const { data: workspace } = await admin
@@ -99,7 +102,7 @@ export async function pauseMonitorAction(input: {
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   try {
     await requireWorkspaceRole(input.workspaceId, ["owner", "admin", "member"]);
-    enforceMonitorActionRateLimit(input.workspaceId, "pause");
+    await enforceMonitorActionRateLimit(input.workspaceId, "pause");
     const admin = createAdminSupabaseClient();
     const { error } = await admin
       .from("monitor_configurations")
@@ -141,7 +144,7 @@ export async function resumeMonitorAction(input: {
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   try {
     await requireWorkspaceRole(input.workspaceId, ["owner", "admin", "member"]);
-    enforceMonitorActionRateLimit(input.workspaceId, "resume");
+    await enforceMonitorActionRateLimit(input.workspaceId, "resume");
     const admin = createAdminSupabaseClient();
 
     const { data: config } = await admin

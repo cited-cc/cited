@@ -30,6 +30,14 @@ const positiveInt = (fallback: number) =>
     return Number.isFinite(parsed) ? parsed : cleaned;
   }, z.number().int().positive().default(fallback));
 
+const nonNegativeInt = (fallback: number) =>
+  z.preprocess((value) => {
+    const cleaned = emptyToUndefined(value);
+    if (cleaned === undefined) return fallback;
+    const parsed = Number(cleaned);
+    return Number.isFinite(parsed) ? parsed : cleaned;
+  }, z.number().int().min(0).default(fallback));
+
 const DATAFORSEO_ALLOWED_HOSTS = new Set([
   "api.dataforseo.com",
   "sandbox.dataforseo.com",
@@ -118,6 +126,10 @@ const serverEnvBaseSchema = publicEnvSchema.extend({
   SMTP_FROM_EMAIL: optionalSecret,
   SMTP_SECURE: booleanFlag,
   CITED_JOBS_WORKER_TICK_MS: positiveInt(30_000),
+  CITED_RETENTION_DRY_RUN: booleanFlag,
+  CITED_RETENTION_EXPIRED_INVITATIONS_DAYS: nonNegativeInt(0),
+  CITED_RETENTION_RATE_LIMIT_BUCKETS_DAYS: nonNegativeInt(7),
+  CITED_RETENTION_FAILED_NOTIFICATIONS_DAYS: nonNegativeInt(0),
   SLACK_WEBHOOK_ENCRYPTION_KEY: optionalSecret,
   NOTIFICATION_UNSUBSCRIBE_TOKEN_TTL_DAYS: positiveInt(90),
   DATAFORSEO_LOGIN: optionalSecret,
@@ -656,6 +668,13 @@ export function getServerEnv(): ServerEnv {
     SMTP_FROM_EMAIL: process.env.SMTP_FROM_EMAIL,
     SMTP_SECURE: process.env.SMTP_SECURE,
     CITED_JOBS_WORKER_TICK_MS: process.env.CITED_JOBS_WORKER_TICK_MS,
+    CITED_RETENTION_DRY_RUN: process.env.CITED_RETENTION_DRY_RUN,
+    CITED_RETENTION_EXPIRED_INVITATIONS_DAYS:
+      process.env.CITED_RETENTION_EXPIRED_INVITATIONS_DAYS,
+    CITED_RETENTION_RATE_LIMIT_BUCKETS_DAYS:
+      process.env.CITED_RETENTION_RATE_LIMIT_BUCKETS_DAYS,
+    CITED_RETENTION_FAILED_NOTIFICATIONS_DAYS:
+      process.env.CITED_RETENTION_FAILED_NOTIFICATIONS_DAYS,
     SLACK_WEBHOOK_ENCRYPTION_KEY: process.env.SLACK_WEBHOOK_ENCRYPTION_KEY,
     NOTIFICATION_UNSUBSCRIBE_TOKEN_TTL_DAYS:
       process.env.NOTIFICATION_UNSUBSCRIBE_TOKEN_TTL_DAYS,

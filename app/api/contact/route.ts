@@ -11,7 +11,7 @@ import {
 } from "@/lib/notifications/providers/registry";
 import { logger } from "@/lib/security/logger";
 import {
-  assertRateLimit,
+  assertRateLimitDurable,
   fingerprintFromRequest,
   RATE_LIMIT_PRESETS,
 } from "@/lib/security/rate-limit";
@@ -20,7 +20,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   const fingerprint = fingerprintFromRequest(request, "contact");
-  const limited = assertRateLimit({
+  const limited = await assertRateLimitDurable({
     key: fingerprint,
     ...RATE_LIMIT_PRESETS.contact,
   });
