@@ -1,0 +1,11 @@
+Copyright 2026 Cited contributors.
+
+This project includes third-party software components that are distributed
+under their own license terms. See docs/open-source/dependency-licenses.md
+for how dependency licenses are inventoried.
+
+Product names, company names, and logos may be trademarks of their respective
+owners. See TRADEMARKS.md for Cited branding guidance.
+
+Cited Cloud may include private components, services, infrastructure, and data
+that are not distributed in this repository.

@@ -1,0 +1,73 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.8500 sec.",
+  "cost": 0.002,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.8000 sec.",
+      "cost": 0.002,
+      "result_count": 1,
+      "path": ["v3", "serp", "google", "organic", "live", "advanced"],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "keyword": "Best tools for AI citation monitoring"
+      },
+      "result": [
+        {
+          "keyword": "Best tools for AI citation monitoring",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "datetime": "2026-07-09 12:00:00 +00:00",
+          "item_types": ["ai_overview", "organic"],
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "markdown": "Cited Test Brand helps teams monitor AI citations with durable evidence notes.",
+              "asynchronous_ai_overview": false,
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "source": "Cited Test Brand",
+                  "domain": "cited-test.example",
+                  "url": "https://cited-test.example/guide",
+                  "title": "AI citation monitoring guide",
+                  "text": "Monitor prompts across AI surfaces and keep the proof."
+                }
+              ],
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "title": "Focused monitoring",
+                  "text": "Teams use Cited Test Brand when they need citation receipts.",
+                  "references": [
+                    {
+                      "type": "ai_overview_reference",
+                      "source": "Cited Docs",
+                      "domain": "docs.cited-test.example",
+                      "url": "https://docs.cited-test.example/ai-surfaces",
+                      "title": "AI surfaces",
+                      "text": "Supported surfaces include ChatGPT and Google AI Overviews."
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

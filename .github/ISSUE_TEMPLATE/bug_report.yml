@@ -1,0 +1,95 @@
+name: Bug report
+description: Report a reproducible bug in the Cited open-source project
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include secrets, tokens, customer data, or personal information.
+
+        Security vulnerabilities must be reported privately. See SECURITY.md in the repository root.
+
+  - type: input
+    id: version
+    attributes:
+      label: Cited version or commit
+      description: Tag, package version, or git commit hash
+      placeholder: e.g. 0.1.0 or abc1234
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deployment-mode
+    attributes:
+      label: Deployment mode
+      options:
+        - Local development
+        - Self-hosted (experimental)
+        - Cited Cloud
+        - Other / unknown
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: e.g. macOS 15, Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: input
+    id: node-version
+    attributes:
+      label: Node.js version
+      placeholder: e.g. 22.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: database-provider
+    attributes:
+      label: Database and provider information
+      description: Supabase/Postgres setup and monitoring provider if relevant
+      placeholder: e.g. Supabase local, MONITORING_PROVIDER=mock
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps that consistently reproduce the issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or screenshots
+      description: Remove secrets, tokens, email addresses, and customer identifiers
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: sanitization
+    attributes:
+      label: Confirmation
+      options:
+        - label: I removed secrets, credentials, and personal data from this report
+          required: true

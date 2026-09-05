@@ -1,0 +1,179 @@
+name: cited
+
+x-cited-app-env: &cited_app_env
+  NODE_ENV: production
+  TZ: UTC
+  PORT: "3000"
+  HOSTNAME: 0.0.0.0
+  CITED_DEPLOYMENT_MODE: self_hosted
+  NEXT_PUBLIC_CITED_DEPLOYMENT_MODE: self_hosted
+  CITED_AUTH_PROVIDER: local
+  NEXT_PUBLIC_CITED_AUTH_PROVIDER: local
+  CITED_DATABASE_PROVIDER: postgres
+  DATABASE_HOST: db
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: ${DATABASE_NAME:-cited}
+  DATABASE_USER: cited_app
+  DATABASE_MIGRATION_USER: cited_owner
+  DATABASE_ADMIN_USER: postgres
+  DATABASE_SSL_MODE: disable
+  DATABASE_PASSWORD_FILE: /run/secrets/postgres_runtime_password
+  DATABASE_MIGRATION_PASSWORD_FILE: /run/secrets/postgres_owner_password
+  AUTH_SECRET_FILE: /run/secrets/auth_secret
+  CITED_BOOTSTRAP_TOKEN_FILE: /run/secrets/bootstrap_token
+  MONITORING_CRON_SECRET_FILE: /run/secrets/monitoring_cron_secret
+  SLACK_WEBHOOK_ENCRYPTION_KEY_FILE: /run/secrets/slack_webhook_encryption_key
+  NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+  NEXT_PUBLIC_SUPPORT_EMAIL: ${NEXT_PUBLIC_SUPPORT_EMAIL:-hello@example.com}
+  SECURITY_CONTACT_EMAIL: ${SECURITY_CONTACT_EMAIL:-security@example.com}
+  CITED_MONITORING_PROVIDER: ${CITED_MONITORING_PROVIDER:-mock}
+  CITED_ALLOW_MOCK_PROVIDER: ${CITED_ALLOW_MOCK_PROVIDER:-true}
+  MONITORING_ENABLED: ${MONITORING_ENABLED:-true}
+  NOTIFICATIONS_ENABLED: ${NOTIFICATIONS_ENABLED:-false}
+  CITED_EMAIL_PROVIDER: ${CITED_EMAIL_PROVIDER:-disabled}
+  CITED_JOBS_WORKER_TICK_MS: ${CITED_JOBS_WORKER_TICK_MS:-30000}
+
+services:
+  db:
+    image: postgres:17.2-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-cited}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_owner_password
+      TZ: UTC
+      PGTZ: UTC
+    secrets:
+      - postgres_owner_password
+    volumes:
+      - cited_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${DATABASE_NAME:-cited}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - cited_internal
+
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${CITED_IMAGE:-cited-local:latest}
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["node", "docker/entrypoint-migrate.mjs"]
+    environment:
+      <<: *cited_app_env
+    secrets:
+      - postgres_owner_password
+      - postgres_runtime_password
+      - auth_secret
+      - bootstrap_token
+      - monitoring_cron_secret
+      - slack_webhook_encryption_key
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    networks:
+      - cited_internal
+    restart: "no"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${CITED_IMAGE:-cited-local:latest}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    entrypoint: ["node", "docker/entrypoint-web.mjs"]
+    ports:
+      - "${CITED_WEB_PORT:-3000}:3000"
+    environment:
+      <<: *cited_app_env
+    secrets:
+      - postgres_runtime_password
+      - auth_secret
+      - bootstrap_token
+      - monitoring_cron_secret
+      - slack_webhook_encryption_key
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 30s
+    restart: unless-stopped
+    networks:
+      - cited_internal
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${CITED_IMAGE:-cited-local:latest}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    entrypoint: ["node", "docker/entrypoint-worker.mjs"]
+    environment:
+      <<: *cited_app_env
+      CITED_WORKER_HEARTBEAT_PATH: /tmp/cited-worker-heartbeat
+    secrets:
+      - postgres_runtime_password
+      - auth_secret
+      - monitoring_cron_secret
+      - slack_webhook_encryption_key
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 45s
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "docker/healthcheck-worker.mjs"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+    networks:
+      - cited_internal
+
+  mailpit:
+    profiles: ["mailpit"]
+    image: axllent/mailpit:v1.21.8
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
+    networks:
+      - cited_internal
+
+secrets:
+  postgres_owner_password:
+    file: ./.cited/secrets/postgres_owner_password
+  postgres_runtime_password:
+    file: ./.cited/secrets/postgres_runtime_password
+  auth_secret:
+    file: ./.cited/secrets/auth_secret
+  bootstrap_token:
+    file: ./.cited/secrets/bootstrap_token
+  monitoring_cron_secret:
+    file: ./.cited/secrets/monitoring_cron_secret
+  slack_webhook_encryption_key:
+    file: ./.cited/secrets/slack_webhook_encryption_key
+
+networks:
+  cited_internal:
+    driver: bridge
+
+volumes:
+  cited_pg_data:

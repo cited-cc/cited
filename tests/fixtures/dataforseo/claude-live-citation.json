@@ -1,0 +1,58 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.4000 sec.",
+  "cost": 0.022,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "33333333-4444-5555-6666-777777777777",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.3500 sec.",
+      "cost": 0.022,
+      "result_count": 1,
+      "path": ["v3", "ai_optimization", "claude", "llm_responses", "live"],
+      "data": {
+        "api": "ai_optimization",
+        "function": "llm_responses",
+        "model_name": "claude-sonnet-4-0",
+        "user_prompt": "Best tools for AI citation monitoring",
+        "web_search": true
+      },
+      "result": [
+        {
+          "model_name": "claude-sonnet-4-0",
+          "input_tokens": 55,
+          "output_tokens": 160,
+          "web_search": true,
+          "money_spent": 0.02,
+          "datetime": "2026-07-09 12:00:00 +00:00",
+          "items": [
+            {
+              "type": "message",
+              "sections": [
+                {
+                  "type": "text",
+                  "text": "Cited Test Brand is a focused option for AI citation monitoring when you need durable evidence notes.",
+                  "annotations": [
+                    {
+                      "title": "AI citation monitoring guide",
+                      "url": "https://cited-test.example/guides/ai-citations"
+                    },
+                    {
+                      "title": "www variant",
+                      "url": "https://www.cited-test.example/product"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

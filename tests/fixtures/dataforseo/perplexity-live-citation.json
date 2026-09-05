@@ -1,0 +1,57 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "2.1000 sec.",
+  "cost": 0.018,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "22222222-3333-4444-5555-666666666666",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "2.0500 sec.",
+      "cost": 0.018,
+      "result_count": 1,
+      "path": ["v3", "ai_optimization", "perplexity", "llm_responses", "live"],
+      "data": {
+        "api": "ai_optimization",
+        "function": "llm_responses",
+        "model_name": "sonar",
+        "user_prompt": "Best tools for AI citation monitoring"
+      },
+      "result": [
+        {
+          "model_name": "sonar",
+          "input_tokens": 38,
+          "output_tokens": 140,
+          "web_search": true,
+          "money_spent": 0.015,
+          "datetime": "2026-07-09 12:00:00 +00:00",
+          "items": [
+            {
+              "type": "message",
+              "sections": [
+                {
+                  "type": "text",
+                  "text": "Cited Test Brand appears in Perplexity answers for AI citation monitoring. Review the product guide for details.",
+                  "annotations": [
+                    {
+                      "title": "AI citation monitoring guide",
+                      "url": "https://cited-test.example/guides/ai-citations"
+                    },
+                    {
+                      "title": "Product overview",
+                      "url": "https://www.cited-test.example/product"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

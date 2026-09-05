@@ -1,0 +1,72 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "1.1000 sec.",
+  "cost": 0.003,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "cccccccc-dddd-eeee-ffff-000000000000",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "1.0500 sec.",
+      "cost": 0.003,
+      "result_count": 1,
+      "path": ["v3", "serp", "google", "ai_mode", "live", "advanced"],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "se_type": "ai_mode",
+        "keyword": "Best tools for AI citation monitoring"
+      },
+      "result": [
+        {
+          "keyword": "Best tools for AI citation monitoring",
+          "type": "ai_mode",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "datetime": "2026-07-09 12:05:00 +00:00",
+          "item_types": ["ai_overview"],
+          "items": [
+            {
+              "type": "ai_overview",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "markdown": "## AI citation monitoring\n\nCited Test Brand appears when buyers ask for citation evidence tools.",
+              "references": [
+                {
+                  "type": "ai_overview_reference",
+                  "source": "Cited Test Brand",
+                  "domain": "cited-test.example",
+                  "url": "https://www.cited-test.example/",
+                  "title": "Cited Test Brand",
+                  "text": "Citation inbox for AI search."
+                },
+                {
+                  "type": "ai_overview_reference",
+                  "source": "Cited Blog",
+                  "domain": "cited-test.example",
+                  "url": "https://cited-test.example/blog/ai-citation-monitoring",
+                  "title": "AI citation monitoring",
+                  "text": "How to know when AI cites your site."
+                }
+              ],
+              "items": [
+                {
+                  "type": "ai_overview_element",
+                  "title": "What to watch",
+                  "text": "Track prompts on Google AI Mode and keep the source slip.",
+                  "references": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

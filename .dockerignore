@@ -1,0 +1,75 @@
+# Git and editor state
+.git
+.gitattributes
+.github
+.cursor
+.agents
+.mcp.json
+*.code-workspace
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.cloud.example
+!.env.self-hosted.example
+!.env.docker.example
+.cited/
+*.pem
+*.p12
+*credentials*.json
+*.credentials
+
+# Dependencies and build output
+node_modules
+.next
+out
+build
+coverage
+dist
+*.tsbuildinfo
+
+# Local databases and Supabase state
+*.sql.dump
+*.dump.sql
+*.pgdump
+supabase/.branches
+supabase/.temp
+
+# Vercel and deployment artifacts
+.vercel
+
+# Research and private reports
+research/
+launch/
+docs/open-source/private-baseline-recovery.md
+docs/backend-security-audit.md
+docs/production-*
+docs/runbook-*
+docs/stripe-*
+publication-scan-report.*
+.publication-manifest.*
+secret-scan-report.*
+
+# Outreach and backups
+scripts/outreach-research/
+*outreach*export*
+cited-private-backup-*
+.git-rewrite-backup/
+filter-repo/
+*.bundle
+
+# Tests and local tooling (not required in production image)
+tests/
+vitest.config.ts
+eslint.config.mjs
+
+# Logs and OS noise
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+
+# Docker secret directories on host
+docker/secrets/

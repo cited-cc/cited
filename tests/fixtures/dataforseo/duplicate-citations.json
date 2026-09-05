@@ -1,0 +1,43 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "duplicate-citation-task",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "result_count": 1,
+      "result": [
+        {
+          "model_name": "gpt-4.1-mini",
+          "items": [
+            {
+              "type": "message",
+              "sections": [
+                {
+                  "type": "text",
+                  "text": "See Cited Test Brand guide.",
+                  "annotations": [
+                    {
+                      "type": "link",
+                      "url": "https://cited-test.example/guides/ai-citations",
+                      "title": "[FIXTURE] Guide"
+                    },
+                    {
+                      "type": "link",
+                      "url": "https://cited-test.example/guides/ai-citations",
+                      "title": "[FIXTURE] Guide duplicate"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

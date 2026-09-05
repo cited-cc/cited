@@ -1,0 +1,5 @@
+{
+  "schemaVersion": "1",
+  "description": "Minimal allowlist for dependency license checker exceptions. Each entry requires a written reason.",
+  "packages": {}
+}

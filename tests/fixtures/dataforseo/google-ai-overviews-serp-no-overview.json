@@ -1,0 +1,47 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "time": "0.4200 sec.",
+  "cost": 0.001,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "bbbbbbbb-cccc-dddd-eeee-ffffffffffff",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "time": "0.4000 sec.",
+      "cost": 0.001,
+      "result_count": 1,
+      "path": ["v3", "serp", "google", "organic", "live", "advanced"],
+      "data": {
+        "api": "serp",
+        "function": "live",
+        "se": "google",
+        "keyword": "Best tools for AI citation monitoring"
+      },
+      "result": [
+        {
+          "keyword": "Best tools for AI citation monitoring",
+          "type": "organic",
+          "se_domain": "google.com",
+          "location_code": 2840,
+          "language_code": "en",
+          "datetime": "2026-07-09 12:00:00 +00:00",
+          "item_types": ["organic"],
+          "items": [
+            {
+              "type": "organic",
+              "rank_group": 1,
+              "rank_absolute": 1,
+              "title": "Unrelated organic result",
+              "url": "https://example.com/unrelated",
+              "domain": "example.com"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

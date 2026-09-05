@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "requiredExtensions": ["pgcrypto"],
+  "requiredTables": [
+    "users",
+    "auth_identities",
+    "local_credentials",
+    "workspaces",
+    "workspace_members",
+    "domains",
+    "brands",
+    "monitored_prompts",
+    "monitor_configurations",
+    "scan_runs",
+    "ai_responses",
+    "citation_events",
+    "citation_evidence",
+    "notebook_entries",
+    "rate_limit_buckets",
+    "notification_outbox"
+  ],
+  "requiredRpcs": [
+    "claim_due_scan_runs",
+    "release_expired_scan_run_leases",
+    "record_monitoring_usage_event",
+    "inbox_tab_counts",
+    "inbox_list_events",
+    "claim_notification_outbox",
+    "release_stale_notification_outbox_locks"
+  ]
+}

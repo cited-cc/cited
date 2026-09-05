@@ -1,0 +1,63 @@
+# syntax=docker/dockerfile:1
+
+# Pin to a maintained Node 22 Debian slim base. Operators may pin by digest:
+# FROM node:22-bookworm-slim@sha256:<digest>
+FROM node:22-bookworm-slim AS base
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+
+FROM base AS deps
+COPY package.json package-lock.json ./
+RUN npm ci
+
+FROM deps AS build
+COPY . .
+ENV CITED_DOCKER_BUILD=true \
+    CITED_DEPLOYMENT_MODE=self_hosted \
+    NEXT_PUBLIC_CITED_DEPLOYMENT_MODE=self_hosted \
+    NODE_ENV=production \
+    NEXT_PUBLIC_APP_URL=http://localhost:3000 \
+    NEXT_PUBLIC_SUPPORT_EMAIL=hello@example.com \
+    SECURITY_CONTACT_EMAIL=security@example.com \
+    CITED_AUTH_PROVIDER=local \
+    NEXT_PUBLIC_CITED_AUTH_PROVIDER=local \
+    CITED_DATABASE_PROVIDER=postgres \
+    CITED_MONITORING_PROVIDER=mock \
+    CITED_ALLOW_MOCK_PROVIDER=true \
+    MONITORING_ENABLED=false \
+    NOTIFICATIONS_ENABLED=false \
+    CITED_EMAIL_PROVIDER=disabled
+RUN npm run build
+
+FROM base AS runtime
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PORT=3000 \
+    HOSTNAME=0.0.0.0
+
+RUN groupadd --gid 1001 cited \
+    && useradd --uid 1001 --gid cited --create-home --shell /usr/sbin/nologin cited
+
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/LICENSE ./LICENSE
+COPY --from=build /app/NOTICE ./NOTICE
+COPY --from=build /app/supabase/migrations ./supabase/migrations
+COPY --from=build /app/scripts ./scripts
+COPY --from=build /app/lib ./lib
+COPY --from=build /app/docker ./docker
+COPY --from=build /app/package.json ./package.json
+
+RUN npm install --omit=dev tsx@4.21.0 pg@8.23.0 \
+    && chown -R cited:cited /app
+
+USER cited
+WORKDIR /app
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=15s --timeout=5s --start-period=60s --retries=5 \
+  CMD node docker/healthcheck-web.mjs || exit 1
+
+CMD ["node", "docker/entrypoint-web.mjs"]

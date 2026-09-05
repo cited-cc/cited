@@ -1,0 +1,309 @@
+{
+  "schemaVersion": "2",
+  "repository": "cited-public",
+  "defaultVisibility": "private",
+  "publicReleaseBlocked": true,
+  "requiredChecks": [
+    "policy-valid",
+    "release-not-blocked",
+    "fresh-history",
+    "no-git-remote",
+    "forbidden-tracked-paths",
+    "forbidden-filename-patterns",
+    "sensitive-content-patterns",
+    "tracked-env-files",
+    "personal-emails-in-config",
+    "mcp-private-references",
+    "do-not-publish-markers",
+    "manual-review-paths",
+    "license-present",
+    "package-license-metadata",
+    "legal-foundation",
+    "license-claim-hygiene",
+    "documentation-readiness",
+    "deployment-architecture-present",
+    "auth-architecture-present",
+    "entitlement-architecture-present",
+    "database-architecture-present",
+    "clean-install-verification",
+    "public-surface-verification",
+    "human-approval"
+  ],
+  "forbiddenTrackedPaths": [
+    {
+      "id": "outreach-research-data",
+      "path": "research/cited-outreach",
+      "match": "prefix",
+      "reason": "Outreach research and prospect data must remain private."
+    },
+    {
+      "id": "outreach-research-scripts",
+      "path": "scripts/outreach-research",
+      "match": "prefix",
+      "reason": "Outreach automation scripts must remain private."
+    },
+    {
+      "id": "root-mcp-config",
+      "path": ".mcp.json",
+      "match": "exact",
+      "reason": "Root MCP configuration may contain private project references."
+    },
+    {
+      "id": "cursor-mcp-config",
+      "path": ".cursor/mcp.json",
+      "match": "exact",
+      "reason": "Cursor MCP configuration may contain private project references."
+    },
+    {
+      "id": "internal-security-audit",
+      "path": "docs/backend-security-audit.md",
+      "match": "exact",
+      "reason": "Internal security audit marked do not publish."
+    },
+    {
+      "id": "launch-operations",
+      "path": "launch",
+      "match": "prefix",
+      "reason": "Launch playbooks and operational checklists must remain private."
+    },
+    {
+      "id": "cursor-config",
+      "path": ".cursor",
+      "match": "prefix",
+      "reason": "Cursor editor configuration must remain private."
+    },
+    {
+      "id": "agents-cache",
+      "path": ".agents",
+      "match": "prefix",
+      "reason": "Agent skills cache must remain private."
+    },
+    {
+      "id": "resend-inbound-setup-script",
+      "path": "scripts/setup-resend-inbound.ts",
+      "match": "exact",
+      "reason": "Hosted inbound-email provisioning script must remain private."
+    },
+    {
+      "id": "resend-inbound-postbuild-script",
+      "path": "scripts/postbuild-resend-inbound.mjs",
+      "match": "exact",
+      "reason": "Hosted inbound-email postbuild hook must remain private."
+    },
+    {
+      "id": "private-baseline-recovery-doc",
+      "path": "docs/open-source/private-baseline-recovery.md",
+      "match": "exact",
+      "reason": "Private baseline recovery instructions must remain private."
+    }
+  ],
+  "forbiddenFilenamePatterns": [
+    {
+      "id": "env-file",
+      "pattern": "^\\.env(?!\\.(example|cloud\\.example|self-hosted\\.example|docker\\.example)$)",
+      "reason": "Environment files with secrets must not be tracked."
+    },
+    {
+      "id": "pem-certificate",
+      "pattern": "\\.pem$",
+      "reason": "Private keys and certificates must not be tracked."
+    },
+    {
+      "id": "p12-keystore",
+      "pattern": "\\.p12$",
+      "reason": "Keystore files must not be tracked."
+    },
+    {
+      "id": "credentials-json",
+      "pattern": "(^|/)credentials\\.json$",
+      "reason": "Credential export files must not be tracked."
+    },
+    {
+      "id": "private-key-filename",
+      "pattern": "(^|/)id_rsa(\\.pub)?$",
+      "reason": "SSH private keys must not be tracked."
+    },
+    {
+      "id": "database-dump",
+      "pattern": "\\.(sql\\.dump|dump\\.sql|pgdump)$",
+      "reason": "Database dumps must not be tracked."
+    },
+    {
+      "id": "outreach-export",
+      "pattern": "outreach.*export",
+      "flags": "i",
+      "reason": "Outreach export artifacts must not be tracked."
+    },
+    {
+      "id": "private-backup-bundle",
+      "pattern": "cited-private-backup",
+      "flags": "i",
+      "reason": "Private backup bundles must not be tracked."
+    }
+  ],
+  "sensitiveContentPatterns": [
+    {
+      "id": "stripe-live-secret",
+      "pattern": "sk_live_[A-Za-z0-9]{16,}",
+      "reason": "Stripe live secret key pattern detected."
+    },
+    {
+      "id": "stripe-restricted-key",
+      "pattern": "rk_live_[A-Za-z0-9]{16,}",
+      "reason": "Stripe restricted live key pattern detected."
+    },
+    {
+      "id": "clerk-secret-key",
+      "pattern": "sk_(live|test)_[A-Za-z0-9]{20,}",
+      "reason": "Clerk secret key pattern detected."
+    },
+    {
+      "id": "supabase-service-jwt",
+      "pattern": "eyJ[A-Za-z0-9_-]{10,}\\.eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}",
+      "reason": "JWT token pattern detected."
+    },
+    {
+      "id": "slack-webhook",
+      "pattern": "https://hooks\\.slack\\.com/services/[A-Za-z0-9/_-]+",
+      "reason": "Slack webhook URL pattern detected."
+    },
+    {
+      "id": "resend-api-key",
+      "pattern": "re_[A-Za-z0-9]{20,}",
+      "reason": "Resend API key pattern detected."
+    },
+    {
+      "id": "aws-access-key",
+      "pattern": "AKIA[0-9A-Z]{16}",
+      "reason": "AWS access key pattern detected."
+    },
+    {
+      "id": "private-key-block",
+      "pattern": "-----BEGIN (?:RSA |EC )?PRIVATE KEY-----",
+      "reason": "Private key block detected."
+    },
+    {
+      "id": "hardcoded-env-secret",
+      "pattern": "(?:SECRET(?:_KEY)?|WEBHOOK_SECRET|CRON_SECRET|API_KEY|PRIVATE_KEY|PASSWORD)\\s*=\\s*['\"]?[A-Za-z0-9+/=_-]{12,}['\"]?",
+      "reason": "Hardcoded secret-like environment assignment detected."
+    }
+  ],
+  "sensitiveContentAllowlistPaths": [
+    "scripts/security/secret-scan.ts",
+    "scripts/check-publication-readiness.mjs",
+    "lib/publication/readiness.mjs",
+    "tests/",
+    ".env.example",
+    ".env.self-hosted.example",
+    ".env.docker.example",
+    "config/publication-policy.json",
+    "docs/local-development.md"
+  ],
+  "personalEmailConfigPaths": [
+    ".env.example",
+    ".env.self-hosted.example",
+    ".env.docker.example",
+    "config/",
+    "supabase/config.toml"
+  ],
+  "personalEmailAllowlistDomains": [
+    "cited.cc",
+    "send.cited.cc",
+    "example.com",
+    "email.com",
+    "localhost"
+  ],
+  "mcpConfigPaths": [],
+  "mcpPrivateReferencePatterns": [
+    {
+      "id": "supabase-project-ref",
+      "pattern": "project_ref=[a-z0-9]+",
+      "reason": "Supabase project reference in tracked MCP configuration."
+    },
+    {
+      "id": "supabase-mcp-project-url",
+      "pattern": "mcp\\.supabase\\.com/mcp\\?project_ref=",
+      "reason": "Supabase MCP project URL in tracked MCP configuration."
+    }
+  ],
+  "doNotPublishMarkers": [
+    "do not publish externally",
+    "do-not-publish",
+    "not for publication",
+    "internal reference. do not publish"
+  ],
+  "manualReviewPaths": [
+    {
+      "id": "internal-runbooks",
+      "path": "docs/runbook-",
+      "match": "path-prefix",
+      "reason": "Operational runbooks may contain hosted infrastructure detail."
+    },
+    {
+      "id": "production-docs",
+      "path": "docs/production-",
+      "match": "path-prefix",
+      "reason": "Production documentation may contain deployment metadata."
+    },
+    {
+      "id": "stripe-internal-docs",
+      "path": "docs/stripe-",
+      "match": "path-prefix",
+      "reason": "Stripe lifecycle docs may contain Cloud billing operations."
+    },
+    {
+      "id": "billing-docs",
+      "path": "docs/billing.md",
+      "match": "exact",
+      "reason": "Billing documentation may describe hosted commercial operations."
+    },
+    {
+      "id": "launch-config",
+      "path": "lib/launch/",
+      "match": "prefix",
+      "reason": "Launch configuration may contain operational defaults."
+    },
+    {
+      "id": "internal-api-routes",
+      "path": "app/api/internal/",
+      "match": "prefix",
+      "reason": "Internal API routes require Cloud overlay review before publication."
+    },
+    {
+      "id": "learn-domains-handoff",
+      "path": "app/api/integrations/learn-domains/",
+      "match": "prefix",
+      "reason": "Learn Domains commercial handoff logic requires sanitization review."
+    }
+  ],
+  "allowedPublicAreas": [
+    "app/(marketing)/",
+    "app/app/",
+    "components/",
+    "lib/monitoring/",
+    "lib/citations/",
+    "lib/domains/",
+    "lib/evidence/",
+    "lib/export/",
+    "lib/inbox/",
+    "lib/notebook/",
+    "lib/providers/",
+    "docs/citation-classification.md",
+    "docs/domain-verification.md",
+    "docs/monitoring-engine.md",
+    "docs/evidence-ledger.md",
+    "docs/inbox.md",
+    "docs/notebook.md",
+    "docs/local-development.md",
+    "docs/architecture.md"
+  ],
+  "notes": [
+    "This policy guards the cited-public publication candidate.",
+    "Fresh Git history is required. No private repository history may be imported.",
+    "No remote may be configured until an approved publication phase.",
+    "A clean secret scan is necessary but not sufficient for publication readiness.",
+    "No repository may become public until publicReleaseBlocked is false and all blocking checks pass.",
+    "License selection: AGPL-3.0-only (Phase 3).",
+    "See docs/open-source/fresh-history.md for repository origin expectations."
+  ]
+}

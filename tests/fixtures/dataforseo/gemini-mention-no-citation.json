@@ -1,0 +1,32 @@
+{
+  "version": "0.1.20260101",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [
+    {
+      "id": "gemini-mention-task",
+      "status_code": 20000,
+      "status_message": "Ok.",
+      "result_count": 1,
+      "result": [
+        {
+          "model_name": "gemini-2.5-flash",
+          "items": [
+            {
+              "type": "message",
+              "sections": [
+                {
+                  "type": "text",
+                  "text": "Teams often mention Cited Test Brand when discussing AI citation monitoring, without linking a source.",
+                  "annotations": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

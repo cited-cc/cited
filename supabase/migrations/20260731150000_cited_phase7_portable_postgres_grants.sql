@@ -1,0 +1,3 @@
+-- Phase 7 portable PostgreSQL notes.
+-- service_role grants in earlier migrations are applied conditionally by the migration runner.
+-- Self-hosted operators may create a cited_runtime role with schema access documented in docs/open-source/database.md.

@@ -1,0 +1,841 @@
+@import "tailwindcss";
+
+:root {
+  /* Vanilla paper (Memo / Slurp family) */
+  --cited-black: #15131a;
+  --cited-canvas: #fbf7f0;
+  --cited-canvas-elevated: #ffffff;
+  --cited-surface: #ffffff;
+  --cited-surface-raised: #ffffff;
+  --cited-surface-hover: #f1ece4;
+  --cited-surface-pressed: #eae7e0;
+  --cited-paper: #ffffff;
+  --cited-paper-soft: #fdfbf6;
+
+  /* Ink on vanilla */
+  --cited-ink: #15131a;
+  --cited-ink-strong: #0c0b10;
+  --cited-ink-muted: #524e5c;
+  --cited-ink-subtle: #837f8d;
+  --cited-ink-faint: #a8a4b0;
+
+  --cited-muted: var(--cited-ink-muted);
+  --cited-faint: var(--cited-ink-faint);
+
+  /* Ledger lines */
+  --cited-line: #e7e0d4;
+  --cited-line-strong: #d9d1c3;
+  --cited-line-subtle: #efe9df;
+
+  /* Light primary accent: Pamphlet Blue (coral/pink role on Memo/Slurp) */
+  --cited-accent: #3db8bd;
+  --cited-accent-bright: #5ce1e6;
+  --cited-accent-ink: #0a3d40;
+  --cited-accent-muted: rgba(92, 225, 230, 0.18);
+  --cited-acid: var(--cited-accent-bright);
+  --cited-acid-soft: var(--cited-accent-muted);
+
+  /* Semantic aliases all resolve to Pamphlet Blue */
+  --cited-citation: var(--cited-accent-bright);
+  --cited-citation-muted: var(--cited-accent-muted);
+  --cited-yellow: var(--cited-accent-bright);
+  --cited-yellow-soft: var(--cited-accent-muted);
+
+  --cited-warning: var(--cited-accent);
+  --cited-warning-muted: var(--cited-accent-muted);
+
+  --cited-success: var(--cited-accent);
+  --cited-success-muted: var(--cited-accent-muted);
+
+  --cited-info: var(--cited-accent);
+  --cited-info-muted: var(--cited-accent-muted);
+
+  /* Danger stays for destructive actions only */
+  --cited-danger: #d6453a;
+  --cited-danger-muted: rgba(214, 69, 58, 0.12);
+
+  /* Elevation: soft ink shadows on vanilla */
+  --cited-shadow-note:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset, 0 8px 24px rgba(21, 19, 26, 0.06);
+  --cited-shadow-overlay:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 16px 40px rgba(21, 19, 26, 0.1);
+
+  /* Radius (Memo.ly) */
+  --cited-radius-xs: 3px;
+  --cited-radius-sm: 5px;
+  --cited-radius-md: 8px;
+  --cited-radius-lg: 12px;
+  --cited-radius-xl: 16px;
+
+  /* Motion */
+  --cited-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cited-duration-fast: 120ms;
+  --cited-duration: 180ms;
+  --cited-duration-slow: 280ms;
+
+  /* Type scale (Memo.ly) */
+  --text-display-2xl: clamp(2.75rem, 1.55rem + 5.6vw, 5.5rem);
+  --text-display-xl: clamp(2.25rem, 1.55rem + 3.3vw, 4rem);
+  --text-display-lg: clamp(2rem, 1.55rem + 2.1vw, 3rem);
+  --text-display-md: clamp(1.75rem, 1.45rem + 1.4vw, 2.25rem);
+  --text-display-sm: clamp(1.5rem, 1.35rem + 0.8vw, 1.875rem);
+  --text-heading-lg: 1.75rem;
+  --text-heading-md: 1.375rem;
+  --text-heading-sm: 1.125rem;
+  --text-body-lg: 1.0625rem;
+  --text-body-md: 0.9375rem;
+  --text-body-sm: 0.8125rem;
+  --text-caption: 0.75rem;
+  --text-mono-sm: 0.75rem;
+  --text-mono-xs: 0.6875rem;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --tracking-tightest: -0.035em;
+  --tracking-tight: -0.025em;
+
+  /* Compat aliases */
+  --background: var(--cited-canvas);
+  --foreground: var(--cited-ink);
+  --muted: var(--cited-ink-muted);
+  --border: var(--cited-line);
+  --accent: var(--cited-accent);
+  --sidebar: var(--cited-canvas-elevated);
+  --sidebar-foreground: var(--cited-ink);
+  --sidebar-muted: var(--cited-ink-muted);
+
+  /* Fixed inverse band (marketing header/footer stay ink regardless of theme) */
+  --cited-inverse: #15131a;
+  --cited-on-inverse: #fbf7f0;
+  --cited-on-inverse-muted: color-mix(in srgb, var(--cited-on-inverse) 78%, transparent);
+  --cited-on-inverse-faint: color-mix(in srgb, var(--cited-on-inverse) 58%, transparent);
+  --cited-inverse-line: color-mix(in srgb, var(--cited-on-inverse) 10%, transparent);
+  --cited-primary-hover: #000000;
+}
+
+/*
+ * Dark theme (memo-ly pattern): flip semantic surfaces/ink.
+ * Brand accent stays Pamphlet Blue; inverse chrome stays ink.
+ */
+html.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --cited-canvas: #15131a;
+  --cited-canvas-elevated: #1e1b25;
+  --cited-surface: #1e1b25;
+  --cited-surface-raised: #272330;
+  --cited-surface-hover: #2c2935;
+  --cited-surface-pressed: #34303d;
+  --cited-paper: #1e1b25;
+  --cited-paper-soft: #161419;
+
+  --cited-ink: #f6f1e9;
+  --cited-ink-strong: #fbf7f0;
+  --cited-ink-muted: #b7b2be;
+  --cited-ink-subtle: #847f8d;
+  --cited-ink-faint: #6b6675;
+
+  --cited-muted: var(--cited-ink-muted);
+  --cited-faint: var(--cited-ink-faint);
+
+  --cited-line: #2c2935;
+  --cited-line-strong: #4a4656;
+  --cited-line-subtle: #232029;
+
+  --cited-accent: #5ce1e6;
+  --cited-accent-bright: #5ce1e6;
+  --cited-accent-ink: #0a3d40;
+  --cited-accent-muted: rgba(92, 225, 230, 0.2);
+
+  --cited-danger: #ff6f54;
+  --cited-danger-muted: rgba(255, 111, 84, 0.16);
+
+  --cited-shadow-note: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  --cited-shadow-overlay: 0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 16px 40px rgba(0, 0, 0, 0.5);
+
+  --background: var(--cited-canvas);
+  --foreground: var(--cited-ink);
+  --muted: var(--cited-ink-muted);
+  --border: var(--cited-line);
+  --accent: var(--cited-accent);
+  --sidebar: var(--cited-canvas-elevated);
+  --sidebar-foreground: var(--cited-ink);
+  --sidebar-muted: var(--cited-ink-muted);
+
+  --cited-primary-hover: #ffffff;
+}
+
+@theme inline {
+  --color-cited-black: var(--cited-black);
+  --color-cited-canvas: var(--cited-canvas);
+  --color-cited-canvas-elevated: var(--cited-canvas-elevated);
+  --color-cited-surface: var(--cited-surface);
+  --color-cited-surface-raised: var(--cited-surface-raised);
+  --color-cited-surface-hover: var(--cited-surface-hover);
+  --color-cited-surface-pressed: var(--cited-surface-pressed);
+  --color-cited-paper: var(--cited-paper);
+  --color-cited-paper-soft: var(--cited-paper-soft);
+
+  --color-cited-ink: var(--cited-ink);
+  --color-cited-ink-strong: var(--cited-ink-strong);
+  --color-cited-ink-muted: var(--cited-ink-muted);
+  --color-cited-ink-subtle: var(--cited-ink-subtle);
+  --color-cited-ink-faint: var(--cited-ink-faint);
+  --color-cited-muted: var(--cited-muted);
+  --color-cited-faint: var(--cited-faint);
+
+  --color-cited-line: var(--cited-line);
+  --color-cited-line-strong: var(--cited-line-strong);
+  --color-cited-line-subtle: var(--cited-line-subtle);
+
+  --color-cited-accent: var(--cited-accent);
+  --color-cited-accent-bright: var(--cited-accent-bright);
+  --color-cited-accent-ink: var(--cited-accent-ink);
+  --color-cited-accent-muted: var(--cited-accent-muted);
+  --color-cited-acid: var(--cited-acid);
+  --color-cited-acid-soft: var(--cited-acid-soft);
+
+  --color-cited-citation: var(--cited-citation);
+  --color-cited-citation-muted: var(--cited-citation-muted);
+  --color-cited-yellow: var(--cited-yellow);
+  --color-cited-yellow-soft: var(--cited-yellow-soft);
+
+  --color-cited-warning: var(--cited-warning);
+  --color-cited-warning-muted: var(--cited-warning-muted);
+
+  --color-cited-danger: var(--cited-danger);
+  --color-cited-danger-muted: var(--cited-danger-muted);
+
+  --color-cited-success: var(--cited-success);
+  --color-cited-success-muted: var(--cited-success-muted);
+
+  --color-cited-info: var(--cited-info);
+  --color-cited-info-muted: var(--cited-info-muted);
+
+  --color-cited-inverse: var(--cited-inverse);
+  --color-cited-on-inverse: var(--cited-on-inverse);
+  --color-cited-on-inverse-muted: var(--cited-on-inverse-muted);
+  --color-cited-on-inverse-faint: var(--cited-on-inverse-faint);
+  --color-cited-inverse-line: var(--cited-inverse-line);
+  --color-cited-primary-hover: var(--cited-primary-hover);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+
+  --font-sans: var(--font-onest);
+  --font-mono: var(--font-ibm-plex-mono);
+  --font-display: var(--font-bricolage);
+
+  --radius-sm: var(--cited-radius-sm);
+  --radius-md: var(--cited-radius-md);
+  --radius-lg: var(--cited-radius-lg);
+
+  --shadow-note: var(--cited-shadow-note);
+  --shadow-overlay: var(--cited-shadow-overlay);
+}
+
+@layer base {
+  * {
+    border-color: var(--cited-line);
+  }
+
+  html {
+    color-scheme: light;
+    /* Prevent iOS rubber-band from exposing sideways scroll on nested overflow. */
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  html.dark,
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--cited-canvas);
+    color: var(--cited-ink);
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body-md);
+    line-height: var(--leading-normal);
+    font-feature-settings: "cv05" 1, "ss01" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::selection {
+    background: var(--cited-accent-muted);
+    color: var(--cited-ink-strong);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cited-accent-bright);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--cited-ink) 18%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::placeholder {
+    color: var(--cited-ink-faint);
+  }
+}
+
+@layer utilities {
+  .cited-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    border-radius: 4px;
+    border: 1.5px solid var(--cited-line-strong);
+    background-color: var(--cited-canvas-elevated);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px 12px;
+    transition:
+      background-color var(--cited-duration) var(--cited-ease),
+      border-color var(--cited-duration) var(--cited-ease);
+  }
+
+  .cited-checkbox:checked {
+    border-color: var(--cited-accent-ink);
+    background-color: var(--cited-accent-bright);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 6.2L4.8 8.5L9.5 3.5' stroke='%230a3d40' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .cited-checkbox:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--cited-accent) 50%, transparent);
+    outline-offset: 2px;
+  }
+
+  .cited-checkbox:disabled {
+    opacity: 0.5;
+  }
+
+  .screenshot-frame {
+    width: 100%;
+    max-width: 1600px;
+  }
+
+  .cited-atmosphere {
+    background-color: var(--cited-canvas);
+    background-image:
+      radial-gradient(
+        ellipse 70% 45% at 50% -8%,
+        color-mix(in srgb, var(--cited-accent-bright) 8%, transparent),
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 50% 35% at 100% 0%,
+        color-mix(in srgb, var(--cited-paper-soft) 90%, transparent),
+        transparent 50%
+      );
+  }
+
+  @media (max-width: 640px) {
+    .cited-atmosphere {
+      /* Single lighter wash on phones: less paint during scroll. */
+      background-image: radial-gradient(
+        ellipse 90% 40% at 50% -12%,
+        color-mix(in srgb, var(--cited-accent-bright) 7%, transparent),
+        transparent 60%
+      );
+    }
+  }
+
+  .cited-grain::before {
+    content: none;
+  }
+
+  /* Scroll reveal: SSR stays visible; client arms off-screen nodes only */
+  .cited-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cited-reveal.cited-reveal-armed:not(.is-revealed) {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    .cited-reveal.is-revealed {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 420ms var(--cited-ease),
+        transform 420ms var(--cited-ease);
+    }
+
+    .cited-reveal-delay-1.is-revealed {
+      transition-delay: 40ms;
+    }
+    .cited-reveal-delay-2.is-revealed {
+      transition-delay: 80ms;
+    }
+    .cited-reveal-delay-3.is-revealed {
+      transition-delay: 120ms;
+    }
+    .cited-reveal-delay-4.is-revealed {
+      transition-delay: 160ms;
+    }
+    .cited-reveal-delay-5.is-revealed {
+      transition-delay: 200ms;
+    }
+  }
+
+  /* Memo.ly-aligned type roles */
+  .type-display {
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-display-xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-tightest);
+    line-height: 0.97;
+    color: var(--cited-ink-strong);
+  }
+
+  @media (max-width: 640px) {
+    .type-display {
+      font-size: clamp(2.125rem, 9vw, 2.75rem);
+      /* Slightly looser leading on narrow screens reduces clipped descenders. */
+      line-height: 1.02;
+    }
+
+    .type-heading {
+      font-size: clamp(1.625rem, 6.5vw, 2rem);
+      line-height: 1.08;
+    }
+  }
+
+  .type-heading {
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-display-md);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--cited-ink-strong);
+  }
+
+  .type-evidence {
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-heading-sm);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    color: var(--cited-ink-strong);
+  }
+
+  .type-title {
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body-lg);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: var(--leading-snug);
+    color: var(--cited-ink);
+  }
+
+  .type-body {
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body-lg);
+    font-weight: 400;
+    line-height: var(--leading-normal);
+    color: var(--cited-ink-muted);
+  }
+
+  .type-body-sm {
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body-sm);
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    color: var(--cited-ink-muted);
+  }
+
+  .type-meta {
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+    font-size: var(--text-mono-sm);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    color: var(--cited-ink-subtle);
+  }
+
+  .type-citation-meta {
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+    font-size: var(--text-mono-xs);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.45;
+    color: var(--cited-ink-subtle);
+  }
+
+  .type-micro {
+    font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
+    font-size: var(--text-mono-xs);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--cited-ink-subtle);
+  }
+
+  .type-legal {
+    font-family: var(--font-onest), ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--text-body-sm);
+    font-weight: 400;
+    line-height: var(--leading-relaxed);
+    color: var(--cited-ink-muted);
+  }
+
+  .font-display {
+    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  .cited-hairline {
+    border-color: var(--cited-line);
+  }
+
+  .cited-note-shadow {
+    box-shadow: var(--cited-shadow-note);
+  }
+
+  .cited-overlay-shadow {
+    box-shadow: var(--cited-shadow-overlay);
+  }
+
+  .cited-paper-texture {
+    background-color: var(--cited-paper);
+    background-image:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--cited-ink) 3%, transparent) 0%,
+        transparent 28%
+      ),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.35'/%3E%3C/svg%3E");
+    background-blend-mode: soft-light, soft-light;
+  }
+
+  /* Skip expensive paper noise on small / low-power screens (paint + memory). */
+  @media (max-width: 640px), (prefers-reduced-motion: reduce) {
+    .cited-paper-texture {
+      background-image: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--cited-ink) 3%, transparent) 0%,
+        transparent 28%
+      );
+      background-blend-mode: normal;
+    }
+  }
+
+  .motion-rise {
+    transition:
+      transform var(--cited-duration) var(--cited-ease),
+      border-color var(--cited-duration) var(--cited-ease),
+      background-color var(--cited-duration) var(--cited-ease),
+      box-shadow var(--cited-duration) var(--cited-ease);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .motion-rise:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  @keyframes cited-ledger-shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+
+  @keyframes cited-brand-marquee {
+    0% {
+      transform: translate(0);
+    }
+    to {
+      transform: translate(-50%);
+    }
+  }
+
+  .cited-brand-strip-track {
+    display: flex;
+    width: max-content;
+    flex-wrap: nowrap;
+    align-items: center;
+    animation: cited-brand-marquee var(--cited-marquee-duration, 72s) linear
+      infinite;
+    will-change: transform;
+  }
+
+  .cited-brand-strip-track-reverse {
+    animation-direction: reverse;
+  }
+
+  .cited-brand-strip-fade {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 6% 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 6% 94%,
+      transparent 100%
+    );
+  }
+
+  .cited-brand-strip-outline {
+    color: transparent;
+    -webkit-text-stroke-width: 1px;
+  }
+
+  .cited-brand-strip-outline-accent {
+    -webkit-text-stroke-color: color-mix(
+      in srgb,
+      var(--cited-accent-bright) 55%,
+      transparent
+    );
+  }
+
+  .cited-brand-strip-outline-paper {
+    -webkit-text-stroke-color: color-mix(
+      in srgb,
+      var(--cited-on-inverse) 35%,
+      transparent
+    );
+  }
+
+  @media (min-width: 640px) {
+    .cited-brand-strip-outline {
+      -webkit-text-stroke-width: 1.25px;
+    }
+  }
+
+  @keyframes cited-evidence-sweep {
+    0% {
+      background-position: 120% 0;
+    }
+    100% {
+      background-position: -20% 0;
+    }
+  }
+
+  .cited-ledger-shimmer {
+    position: relative;
+  }
+
+  .cited-ledger-shimmer::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--cited-accent) 35%,
+      var(--cited-accent-bright) 50%,
+      var(--cited-accent) 65%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    opacity: 0.55;
+  }
+
+  .cited-evidence-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cited-evidence-sweep::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      color-mix(in srgb, var(--cited-accent-bright) 22%, transparent) 50%,
+      transparent 60%
+    );
+    background-size: 220% 100%;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cited-ledger-shimmer::before {
+      animation: cited-ledger-shimmer 7s linear infinite;
+    }
+
+    .cited-evidence-sweep::after {
+      opacity: 1;
+      animation: cited-evidence-sweep 2.8s var(--cited-ease) 0.4s 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .motion-rise:hover {
+      transform: none;
+    }
+
+    .cited-ledger-shimmer::before {
+      animation: none;
+      opacity: 0.4;
+      background: var(--cited-accent-bright);
+      background-size: auto;
+    }
+
+    .cited-brand-strip-track {
+      animation: none;
+      transform: none;
+    }
+
+    .cited-evidence-sweep::after {
+      display: none;
+    }
+  }
+
+  @keyframes cited-chat-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes cited-auth-compose {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes cited-evidence-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes cited-skeleton {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    @keyframes cited-chat-in {
+      from {
+        opacity: 1;
+        transform: none;
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes cited-auth-compose {
+      from {
+        opacity: 1;
+        transform: none;
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes cited-evidence-in {
+      from {
+        opacity: 1;
+        transform: none;
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes cited-skeleton {
+      100% {
+        transform: none;
+      }
+    }
+  }
+}
+
+/* Hide residual Clerk UI chrome on custom auth surfaces */
+.cl-footer,
+.cl-footerAction,
+.cl-footerPages,
+.cl-badge,
+.cl-developmentModeWarning,
+.cl-logoBox,
+.cl-logoImage,
+.cl-userButtonPopoverFooter,
+.cl-userButtonPopoverActionButton__manageAccount,
+[data-localization-key="footerPageLink__help"],
+[data-localization-key="footerPageLink__privacy"],
+[data-localization-key="footerPageLink__terms"] {
+  display: none !important;
+}
