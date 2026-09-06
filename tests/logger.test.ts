@@ -6,7 +6,7 @@ describe("logger redaction", () => {
   it("redacts secrets and prompt/response fields", () => {
     const redacted = redactObject({
       event: "test",
-      apiKey: "sk_live_secret",
+      apiKey: "fixture_api_key_for_redaction_test",
       authorization: "Bearer abc",
       promptText: "secret prompt",
       response_text: "secret response",

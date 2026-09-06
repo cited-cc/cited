@@ -38,16 +38,16 @@
     "repository": "cited",
     "version": "0.1.0",
     "approvedAt": "2026-09-05T23:25:00.000Z",
-    "approvedCommit": "6814d65b2a7fa028b35f1b2a075c27fdbde95f92"
+    "approvedCommit": "d7c1c01cc9e449479bcaa4726ccaef64172ee502"
   },
   "forbiddenRemotes": [
     "github.com/accomplish999/cited",
-    "github.com/accomplish999/cited-public"
+    "github.com/accomplish999/cited-public",
+    "github.com/accomplish-labs/cited"
   ],
   "notes": [
-    "Confirmed public target: cited-cc/cited (separate from private accomplish999/cited).",
-    "GitHub organization cited-cc must be created before remote setup.",
-    "Container image publication remains blocked until public release approval.",
-    "Do not configure git remotes until Phase 16 release gates pass."
+    "Confirmed public target: cited-cc/cited.",
+    "Private production history must never be imported into this repository.",
+    "Container image: ghcr.io/cited-cc/cited."
   ]
 }

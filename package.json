@@ -114,6 +114,10 @@
   },
   "overrides": {
     "postcss": "^8.5.23",
-    "sharp": "^0.35.0"
+    "sharp": "^0.35.0",
+    "tar": "^7.5.21",
+    "brace-expansion": "^2.1.4",
+    "picomatch": "^4.0.4",
+    "ip-address": "^10.3.1"
   }
 }
