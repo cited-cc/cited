@@ -11,6 +11,7 @@ import {
 
 const repoRoot = process.cwd();
 const outputDir = join(repoRoot, ".cited", "release", TARGET_VERSION);
+const mode = process.env.CITED_RELEASE_MODE === "release" ? "release" : "candidate";
 
 function main() {
   const status = getGitStatus(repoRoot);
@@ -19,7 +20,7 @@ function main() {
     process.exit(1);
   }
 
-  const violations = collectReleaseViolations(repoRoot, { mode: "candidate" });
+  const violations = collectReleaseViolations(repoRoot, { mode });
   if (violations.length > 0) {
     console.error(`release:artifacts: FAIL (${violations.length} preflight violations)`);
     for (const violation of violations) {
