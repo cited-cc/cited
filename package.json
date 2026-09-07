@@ -32,6 +32,8 @@
     "commands:drift": "node scripts/docs/check-commands-drift.mjs",
     "screenshot:freshness": "node scripts/docs/check-screenshot-freshness.mjs",
     "brand:render": "node scripts/docs/render-brand-assets.mjs",
+    "brand:github:auth": "node scripts/github/update-branding.mjs --init-auth --headless=false",
+    "brand:github": "node scripts/github/update-branding.mjs --headless=false",
     "db:migration-ci": "node scripts/db-migration-ci.mjs",
     "content:check": "tsx scripts/content/content-guard.ts",
     "seo:check": "CITED_DEPLOYMENT_MODE=self_hosted NEXT_PUBLIC_CITED_DEPLOYMENT_MODE=self_hosted tsx scripts/seo/seo-check.ts",
