@@ -114,6 +114,8 @@ See `self-host:backup` and `self-host:upgrade` above.
 | `npm run commands:drift` | Command doc drift check |
 | `npm run screenshot:freshness` | Screenshot manifest freshness |
 | `npm run brand:render` | Render brand PNG assets from templates |
+| `npm run brand:github:auth` | Initialize saved GitHub session for org branding uploads |
+| `npm run brand:github` | Upload org avatar and repository social preview assets |
 
 ## CI and publication
 

@@ -15,6 +15,16 @@ updates:
         update-types:
           - patch
           - minor
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+      - dependency-name: eslint
+        update-types:
+          - version-update:semver-major
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
     labels:
       - dependencies
       - npm
@@ -39,6 +49,10 @@ updates:
       time: "07:00"
       timezone: UTC
     open-pull-requests-limit: 2
+    ignore:
+      - dependency-name: node
+        update-types:
+          - version-update:semver-major
     labels:
       - dependencies
       - docker
